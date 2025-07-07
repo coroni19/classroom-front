@@ -43,6 +43,7 @@ const Form: FC<IFormProps> = ({ title, fields, buttonText }) => {
         <Button
           type="submit"
           sx={{ ...styles.button, backgroundColor: theme.color }}
+          onSubmit={()=>{}}
         >
           {buttonText}
         </Button>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FC } from "react";
 import { useStyles } from "./ClassCard.style";
 import PersonIcon from "@mui/icons-material/Person";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -6,7 +6,12 @@ import StudentsList from "../StudentsList/StudentsList";
 import { Avatar, Button, Card, IconButton, Typography } from "@mui/material";
 import { useThemeContext } from "../../contexts/Theme.context";
 
-const ClassCard = () => {
+interface IClassProps {
+  className: string,
+  maxSeats: number
+}
+
+const ClassCard: FC<IClassProps> = ({className ,maxSeats}) => {
   const styles = useStyles();
   const { theme } = useThemeContext();
 
@@ -23,9 +28,9 @@ const ClassCard = () => {
   return (
     <Card sx={styles.card}>
       <div style={styles.header}>
-        <Typography sx={styles.className}>אלון</Typography>
+        <Typography sx={styles.className}>{className}</Typography>
         <Typography sx={styles.seatsLeft}>there are 2 seats left</Typography>
-        <Typography sx={styles.outOf}>out of 2</Typography>
+        <Typography sx={styles.outOf}>out of {maxSeats}</Typography>
       </div>
       <div style={styles.footer}>
         <Button sx={styles.studentsList} onClick={handleClickOpen}>

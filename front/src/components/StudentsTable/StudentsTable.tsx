@@ -9,34 +9,26 @@ import {
   TableHead,
   TableContainer,
 } from "@mui/material";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useState, type FC } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useStyles } from "./StudentsTable.style";
 import SchoolIcon from "@mui/icons-material/School";
+import type { TStudent } from "../../types/class.type";
 import StudentsList from "../StudentsList/StudentsList";
 import { useThemeContext } from "../../contexts/Theme.context";
+import { deleteStudent } from "../../redux/slices/student.slice";
+import { useQuery } from "react-query";
+import studentService from "../../pages/StudentsPage/student.service";
 
-const createData = (
-  id: string,
-  name: string,
-  last: string,
-  age: number,
-  prof: string
-) => {
-  return { id, name, last, age, prof };
-};
+interface IStudentsTableProps {
+  students: TStudent[];
+}
 
-const rows = [
-  createData("123456789", "דוד", "שימי", 65, "חשמליזציה"),
-  createData("569874523", "יוסי", "בן יוסי", 99, "יוסאי"),
-  createData("369147456", "איימי", "וואינהאוס", 27, "זמרת"),
-  createData("410259689", "עמוס", "סומע", 100, "מורה רוחני"),
-  createData("365326478", "ריף", "רוף", 32, "מטקאי"),
-];
-
-const StudentsTable = () => {
+const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
   const styles = useStyles();
   const { theme } = useThemeContext();
+  const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
 
@@ -58,6 +50,16 @@ const StudentsTable = () => {
     "Delete",
   ];
 
+  const handleDelete = (studentId: string) => {
+    // const {data} = useQuery({
+    //   queryKey: ["delete", studentId],
+    //   queryFn: () => studentService.deleteStudent(studentId),
+    // });
+
+    dispatch(deleteStudent(studentId));
+    console.log(studentId);
+  };
+
   return (
     <>
       <TableContainer component={Paper} sx={styles.table}>
@@ -72,16 +74,16 @@ const StudentsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {students.map((student) => (
               <TableRow
-                key={row.id}
+                key={student.studentId}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="center">{row.id}</TableCell>
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.last}</TableCell>
-                <TableCell align="center">{row.age}</TableCell>
-                <TableCell align="center">{row.prof}</TableCell>
+                <TableCell align="center">{student.studentId}</TableCell>
+                <TableCell align="center">{student.firstName}</TableCell>
+                <TableCell align="center">{student.lastName}</TableCell>
+                <TableCell align="center">{student.age}</TableCell>
+                <TableCell align="center">{student.profession}</TableCell>
 
                 <TableCell align="center">
                   <Button
@@ -102,6 +104,7 @@ const StudentsTable = () => {
                       ...theme,
                       outline: `1px solid ${theme.color}`,
                     }}
+                    onClick={() => handleDelete(student.studentId)}
                   >
                     delete
                   </Button>
