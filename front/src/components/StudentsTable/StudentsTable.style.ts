@@ -1,16 +1,21 @@
+import { themes } from "../../../themes";
 import { createStyles } from "../../styles/createStyle";
 
-export const useStyles = () =>
+export const useStyles = (theme: { color: string }) =>
   createStyles({
     buttons: {
+      ...theme,
+      ...themes.transition,
       margin: "15px 0px",
+      outline: `1px solid ${theme.color}`,
     },
     classIcon: {
       bgcolor: "#C4C4C4",
       color: "white",
     },
     addIcon: {
-      color: "#3F50B5",
+      ...theme,
+      ...themes.transition,
       fontSize: "35px",
     },
     table: {

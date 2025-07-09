@@ -9,16 +9,18 @@ import {
   TableHead,
   TableContainer,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { useState, type FC } from "react";
+import { useQueryClient } from "react-query";
 import AddIcon from "@mui/icons-material/Add";
+import { titles } from "./StudentTable.const";
 import { useStyles } from "./StudentsTable.style";
+import ListDialog from "../ListDialog/ListDialog";
 import SchoolIcon from "@mui/icons-material/School";
+import { useDispatch, useSelector } from "react-redux";
 import type { TStudent } from "../../types/class.type";
-import StudentsList from "../StudentsList/StudentsList";
 import { useThemeContext } from "../../contexts/Theme.context";
 import { deleteStudent } from "../../redux/slices/student.slice";
-import { useQuery } from "react-query";
+import { classSelector } from "../../redux/selectors/class.selector";
 import studentService from "../../pages/StudentsPage/student.service";
 
 interface IStudentsTableProps {
@@ -26,13 +28,16 @@ interface IStudentsTableProps {
 }
 
 const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
-  const styles = useStyles();
   const { theme } = useThemeContext();
+  const styles = useStyles(theme);
   const dispatch = useDispatch();
+  const classes = useSelector(classSelector);
 
   const [open, setOpen] = useState(false);
+  const [student, setStudent] = useState<TStudent | null>(null);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (student: TStudent) => {
+    setStudent(student);
     setOpen(true);
   };
 
@@ -40,24 +45,16 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
     setOpen(false);
   };
 
-  const titles = [
-    "ID",
-    "First name",
-    "Last name",
-    "Age",
-    "Profession",
-    "Assign",
-    "Delete",
-  ];
+  const queryClient = useQueryClient();
 
-  const handleDelete = (studentId: string) => {
-    // const {data} = useQuery({
-    //   queryKey: ["delete", studentId],
-    //   queryFn: () => studentService.deleteStudent(studentId),
-    // });
-
-    dispatch(deleteStudent(studentId));
+  const handleDelete = async (studentId: string) => {
     console.log(studentId);
+
+    await queryClient.fetchQuery({
+      queryKey: ["deleteStudent", studentId],
+      queryFn: () => studentService.deleteStudent(studentId),
+    });
+    dispatch(deleteStudent(studentId));
   };
 
   return (
@@ -87,23 +84,15 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
 
                 <TableCell align="center">
                   <Button
-                    sx={{
-                      ...styles.buttons,
-                      ...theme,
-                      outline: `1px solid ${theme.color}`,
-                    }}
-                    onClick={handleClickOpen}
+                    sx={styles.buttons}
+                    onClick={() => handleClickOpen(student)}
                   >
                     assign to class
                   </Button>
                 </TableCell>
                 <TableCell align="center">
                   <Button
-                    sx={{
-                      ...styles.buttons,
-                      ...theme,
-                      outline: `1px solid ${theme.color}`,
-                    }}
+                    sx={styles.buttons}
                     onClick={() => handleDelete(student.studentId)}
                   >
                     delete
@@ -114,15 +103,26 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <StudentsList
+      <ListDialog
         open={open}
         onClose={handleClose}
-        actionIcon={<AddIcon sx={{ ...styles.addIcon, ...theme }}></AddIcon>}
+        actionIcon={<AddIcon sx={styles.addIcon}></AddIcon>}
         avatartIcon={
           <Avatar sx={styles.classIcon}>
             <SchoolIcon />
           </Avatar>
         }
+        listTitle="Available Classes"
+        emptyListTitle="There Are No Available Classes"
+        listItems={classes
+          .filter(
+            (cls) =>
+              cls.students.length < cls.maxSeats &&
+              !student?.classes.find((cl: any) => cl.classId === cls.classId)
+          )
+          .map(({ classId, className }) => {
+            return { key: classId, title: className };
+          })}
       />
     </>
   );

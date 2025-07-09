@@ -5,15 +5,12 @@ import Sidebar from "../Sidebar/Sidebar";
 import { useThemeContext } from "../../contexts/Theme.context";
 
 const Navbar = () => {
-  const styles = useStyles();
   const { theme, toggleTheme } = useThemeContext();
+  const styles = useStyles(theme);
 
   return (
     <>
-      <AppBar
-        position="static"
-        sx={{ ...styles.navbar, backgroundColor: theme.color }}
-      >
+      <AppBar position="static" sx={styles.navbar}>
         <Toolbar>
           <Sidebar />
           <Typography variant="h6" component="div" sx={styles.appName}>

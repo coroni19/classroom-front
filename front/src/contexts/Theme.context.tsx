@@ -1,13 +1,10 @@
 import { createContext, useContext } from "react";
-import { useState, type FC, type ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
+import usePersistantState from "../hooks/usePersistantState.hook";
+import { themes } from "../../themes";
 
-export const themes = {
-  light: {
-    color: "#F50057",
-  },
-  dark: {
-    color: "#3F50B5",
-  },
+type TTtheme = {
+  color: string;
 };
 
 interface IThemeContext {
@@ -26,7 +23,7 @@ const ThemeContext = createContext<IThemeContext>({
 export const useThemeContext = () => useContext<IThemeContext>(ThemeContext);
 
 const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState(themes.dark);
+  const [theme, setTheme] = usePersistantState<TTtheme>("theme", themes.dark);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === themes.dark ? themes.light : themes.dark));

@@ -2,6 +2,7 @@ export type TClass = {
   classId: number;
   className: string;
   maxSeats: number;
+  students: TStudent[];
 };
 
 export type TStudent = {
@@ -10,4 +11,5 @@ export type TStudent = {
   lastName: string;
   age: number;
   profession: string;
+  classes: TClass[];
 };

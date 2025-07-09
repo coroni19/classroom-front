@@ -1,6 +1,6 @@
-import type { TextFieldProps } from "@mui/material";
 import Form from "../../components/Form/Form";
 import { useStyles } from "./CreatePage.style";
+import type { TextFieldProps } from "@mui/material";
 
 interface IFormProps {
   title: string;

@@ -1,6 +1,7 @@
+import { themes } from "../../../themes";
 import { createStyles } from "../../styles/createStyle";
 
-export const useStyles = () =>
+export const useStyles = (theme: {color: string}) =>
   createStyles({
     card: {
       width: "200px",
@@ -29,6 +30,7 @@ export const useStyles = () =>
     numbers: {
       fontWeight: "700",
       display: "inline-flex",
+      fontSize: "inherit"
     },
     footer: {
       display: "flex",
@@ -40,5 +42,9 @@ export const useStyles = () =>
     personIcon: {
       bgcolor: "#C4C4C4",
       color: "white",
+    },
+    icons: {
+      ...theme,
+      ...themes.transition
     },
   });

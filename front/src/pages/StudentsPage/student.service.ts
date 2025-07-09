@@ -5,9 +5,7 @@ class StudentService {
   private api: AxiosInstance;
 
   constructor() {
-    this.api = createAxiosInstance(
-      `${import.meta.env.VITE_BASE_URL}/students`
-    );
+    this.api = createAxiosInstance(`${import.meta.env.VITE_BASE_URL}/students`);
   }
 
   public async getAllStudents(): Promise<any> {
@@ -22,8 +20,9 @@ class StudentService {
 
   public async deleteStudent(id: string) {
     try {
-      await this.api.delete(`/${id}`);
+      const { data } = await this.api.delete(`/${id}`);
       console.log(`Item with id ${id} deleted successfully.`);
+      return data
     } catch (error) {
       console.log(error);
     }

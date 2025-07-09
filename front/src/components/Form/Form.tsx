@@ -15,9 +15,8 @@ interface IFormProps {
 }
 
 const Form: FC<IFormProps> = ({ title, fields, buttonText }) => {
-  const styles = useStyles();
-
   const { theme } = useThemeContext();
+  const styles = useStyles(theme);
 
   return (
     <>
@@ -29,21 +28,15 @@ const Form: FC<IFormProps> = ({ title, fields, buttonText }) => {
             id="outlined-basic"
             label={feild.label}
             variant="outlined"
-            sx={{
-              ...styles.field,
-              "& .MuiOutlinedInput-root.Mui-focused fieldset": {
-                borderColor: theme.color,
-              },
-              "& .MuiInputLabel-root.Mui-focused": theme,
-            }}
+            sx={styles.field}
             required={feild.required}
           />
         ))}
 
         <Button
           type="submit"
-          sx={{ ...styles.button, backgroundColor: theme.color }}
-          onSubmit={()=>{}}
+          sx={styles.button}
+          onSubmit={() => {}}
         >
           {buttonText}
         </Button>

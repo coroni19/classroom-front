@@ -11,6 +11,15 @@ const theme = createTheme({
     fontFamily: `Heebo`,
     fontSize: 18,
   },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+       
+        }
+      }
+    }
+  }
 });
 
 const queryClient = new QueryClient();
