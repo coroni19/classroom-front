@@ -1,8 +1,11 @@
 import { themes } from "../../../themes";
 import { createStyles } from "../../styles/createStyle";
+import { useThemeContext } from "../../contexts/Theme.context";
 
-export const useStyles = (theme: {color: string}) =>
-  createStyles({
+export const useStyles = () => {
+  const { theme } = useThemeContext();
+
+  return createStyles({
     navbar: {
       width: "100vw",
       height: "97px",
@@ -13,7 +16,7 @@ export const useStyles = (theme: {color: string}) =>
       display: "inline-flex",
       justifyContent: "center",
       backgroundColor: theme.color,
-      ...themes.transition
+      ...themes.transition,
     },
     appName: {
       fontFamily: "Roboto",
@@ -22,6 +25,7 @@ export const useStyles = (theme: {color: string}) =>
     darkModeIcon: {
       width: "30px",
       height: "30px",
-      color: "white"
+      color: "white",
     },
   });
+};

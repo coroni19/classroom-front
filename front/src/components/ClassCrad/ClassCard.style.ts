@@ -1,8 +1,11 @@
 import { themes } from "../../../themes";
 import { createStyles } from "../../styles/createStyle";
+import { useThemeContext } from "../../contexts/Theme.context";
 
-export const useStyles = (theme: {color: string}) =>
-  createStyles({
+export const useStyles = () => {
+    const { theme } = useThemeContext();
+
+    return createStyles({
     card: {
       width: "200px",
       height: "188px",
@@ -27,11 +30,6 @@ export const useStyles = (theme: {color: string}) =>
       color: "black",
       fontSize: "16px",
     },
-    numbers: {
-      fontWeight: "700",
-      display: "inline-flex",
-      fontSize: "inherit"
-    },
     footer: {
       display: "flex",
       justifyContent: "center",
@@ -47,4 +45,12 @@ export const useStyles = (theme: {color: string}) =>
       ...theme,
       ...themes.transition
     },
+    errorToastify: {
+      width: "28rem",
+      backgroundColor: "#ecc8c5",
+      color: "#c03e3d",
+      fontFamily: "inherit"
+    }
   });
+}
+  

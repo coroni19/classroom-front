@@ -1,12 +1,16 @@
 import { themes } from "../../../themes";
 import { createStyles } from "../../styles/createStyle";
+import { useThemeContext } from "../../contexts/Theme.context";
 
-export const useStyles = (theme: {color: string}) =>
-  createStyles({
+export const useStyles = () => {
+  const { theme } = useThemeContext();
+
+  return createStyles({
     classCardContainer: {
-      display: "grid",
-      gridTemplate: "auto auto / repeat(6, 1fr)",
-      gridGap: "60px 80px",
+      display: "flex",
+      gap: "6rem",
+      flexWrap: "wrap",
+      maxWidth: "95%",
     },
     personIcon: {
       bgcolor: "#C4C4C4",
@@ -17,3 +21,4 @@ export const useStyles = (theme: {color: string}) =>
       ...themes.transition,
     },
   });
+};

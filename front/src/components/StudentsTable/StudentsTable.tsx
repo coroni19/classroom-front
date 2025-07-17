@@ -17,44 +17,72 @@ import { useStyles } from "./StudentsTable.style";
 import ListDialog from "../ListDialog/ListDialog";
 import SchoolIcon from "@mui/icons-material/School";
 import { useDispatch, useSelector } from "react-redux";
-import type { TStudent } from "../../types/class.type";
-import { useThemeContext } from "../../contexts/Theme.context";
-import { deleteStudent } from "../../redux/slices/student.slice";
+import studentService from "../../services/student.service";
+import type { IStudent } from "../../interfaces/student.interface";
 import { classSelector } from "../../redux/selectors/class.selector";
-import studentService from "../../pages/StudentsPage/student.service";
+import { assignClass, deleteStudent } from "../../redux/slices/student.slice";
+import { assignStudent, unAssignStudent } from "../../redux/slices/class.slice";
 
 interface IStudentsTableProps {
-  students: TStudent[];
+  students: IStudent[];
 }
 
 const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
-  const { theme } = useThemeContext();
-  const styles = useStyles(theme);
+  const styles = useStyles();
   const dispatch = useDispatch();
   const classes = useSelector(classSelector);
 
-  const [open, setOpen] = useState(false);
-  const [student, setStudent] = useState<TStudent | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<IStudent | null>(null);
 
-  const handleClickOpen = (student: TStudent) => {
-    setStudent(student);
-    setOpen(true);
+  const handleClickOpen = (student: IStudent) => {
+    setSelectedStudent(student);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setSelectedStudent(null);
   };
 
   const queryClient = useQueryClient();
 
-  const handleDelete = async (studentId: string) => {
-    console.log(studentId);
+  const handleAction = async (classId: string | number) => {
+    if (selectedStudent) {
+      await studentService.assign(selectedStudent.studentId, Number(classId)),
 
+      dispatch(
+        unAssignStudent({
+          classId: selectedStudent.classId!,
+          studentId: selectedStudent.studentId,
+        })
+      );
+      dispatch(
+        assignStudent({
+          classId: Number(classId),
+          student: selectedStudent,
+        })
+      );
+      dispatch(
+        assignClass({
+          classId: Number(classId),
+          studentId: selectedStudent.studentId,
+        })
+      );
+
+      handleClose();
+    }
+  };
+
+  const handleDelete = async (student: IStudent) => {
     await queryClient.fetchQuery({
-      queryKey: ["deleteStudent", studentId],
-      queryFn: () => studentService.deleteStudent(studentId),
+      queryKey: ["deleteStudent", student.studentId],
+      queryFn: () => studentService.deleteStudent(student.studentId),
     });
-    dispatch(deleteStudent(studentId));
+    dispatch(deleteStudent(student.studentId));
+    dispatch(
+      unAssignStudent({
+        classId: Number(student.classId),
+        studentId: student.studentId,
+      })
+    );
   };
 
   return (
@@ -72,10 +100,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
           </TableHead>
           <TableBody>
             {students.map((student) => (
-              <TableRow
-                key={student.studentId}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
+              <TableRow key={student.studentId}>
                 <TableCell align="center">{student.studentId}</TableCell>
                 <TableCell align="center">{student.firstName}</TableCell>
                 <TableCell align="center">{student.lastName}</TableCell>
@@ -93,7 +118,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
                 <TableCell align="center">
                   <Button
                     sx={styles.buttons}
-                    onClick={() => handleDelete(student.studentId)}
+                    onClick={() => handleDelete(student)}
                   >
                     delete
                   </Button>
@@ -103,27 +128,30 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <ListDialog
-        open={open}
-        onClose={handleClose}
-        actionIcon={<AddIcon sx={styles.addIcon}></AddIcon>}
-        avatartIcon={
-          <Avatar sx={styles.classIcon}>
-            <SchoolIcon />
-          </Avatar>
-        }
-        listTitle="Available Classes"
-        emptyListTitle="There Are No Available Classes"
-        listItems={classes
-          .filter(
-            (cls) =>
-              cls.students.length < cls.maxSeats &&
-              !student?.classes.find((cl: any) => cl.classId === cls.classId)
-          )
-          .map(({ classId, className }) => {
-            return { key: classId, title: className };
-          })}
-      />
+      {selectedStudent && (
+        <ListDialog
+          open={Boolean(selectedStudent)}
+          onClose={handleClose}
+          actionIcon={<AddIcon sx={styles.addIcon}></AddIcon>}
+          handleAction={handleAction}
+          avatartIcon={
+            <Avatar sx={styles.classIcon}>
+              <SchoolIcon />
+            </Avatar>
+          }
+          listTitle="Available Classes"
+          emptyListTitle="There Are No Available Classes"
+          listItems={classes
+            .filter(
+              (cls) =>
+                (cls.students.length < cls.maxSeats &&
+                cls.classId !== selectedStudent.classId)
+            )
+            .map(({ classId, className }) => {
+              return { key: classId, title: className };
+            })}
+        />
+      )}
     </>
   );
 };

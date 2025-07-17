@@ -1,49 +1,62 @@
 import Form from "../../components/Form/Form";
 import { useStyles } from "./CreatePage.style";
-import type { TextFieldProps } from "@mui/material";
-
-interface IFormProps {
-  title: string;
-  fields: TextFieldProps[];
-  buttonText: string;
-}
-
-const forms: IFormProps[] = [ {
-    title: "Create new class",
-    fields: [
-      { label: "ID", required: true },
-      { label: "Name", required: true },
-      { label: "Max Seats", required: true },
-    ],
-    buttonText: "CREATE CLASS",
-  },
-  {
-    title: "Add new student",
-    fields: [
-      { label: "ID", required: true },
-      { label: "First Name", required: true },
-      { label: "Last Name", required: true },
-      { label: "Age", required: false },
-      { label: "Profession", required: true },
-    ],
-    buttonText: "ADD STUDENT",
-  },
- 
-];
+import { useDispatch, useSelector } from "react-redux";
+import classService from "../../services/class.service";
+import { addClass } from "../../redux/slices/class.slice";
+import studentService from "../../services/student.service";
+import { classForm, studentForm } from "./createPage.const";
+import { addStudent } from "../../redux/slices/student.slice";
+import type { IClassDto } from "../../interfaces/class.interface";
+import { classSelector } from "../../redux/selectors/class.selector";
+import type { IStudentDto } from "../../interfaces/student.interface";
+import { studentSelector } from "../../redux/selectors/student.selector";
 
 const CreatePage = () => {
   const styles = useStyles();
 
+  const dispatch = useDispatch();
+
+  const classes = useSelector(classSelector);
+  const students = useSelector(studentSelector);
+
+  const handleSubmitClass = async (feildData: IClassDto) => {
+    try {
+      await classService.createClass(feildData)
+
+      if (classes.length !== 0) {
+        dispatch(addClass({ ...feildData, students: [] }));
+      }
+
+    } catch(error) {
+       throw error
+    }
+  };
+
+  const handleSubmitStudent = async (feildData: IStudentDto) => {
+    try {
+      await  studentService.createStudent(feildData)
+
+      if (students.length !== 0) {
+        dispatch(addStudent({ ...feildData, classId: null }));
+      }
+
+    } catch(error) {
+      throw (error)
+    }
+  };
+
   return (
     <div style={styles.formContainer}>
-      {forms.map((form, index) => (
-        <Form
-          key={index}
-          title={form.title}
-          fields={form.fields}
-          buttonText={form.buttonText}
-        />
-      ))}
+      <Form
+        key={"classForm"}
+        form={classForm}
+        handleSubmitButton={handleSubmitClass}
+      />
+      <Form
+        key={"studentForm"}
+        form={studentForm}
+        handleSubmitButton={handleSubmitStudent}
+      />
     </div>
   );
 };

@@ -1,12 +1,12 @@
-import { AppBar, Button, Toolbar, Typography } from "@mui/material";
-import LoyaltyIcon from "@mui/icons-material/Loyalty";
-import { useStyles } from "./Navbar.style";
 import Sidebar from "../Sidebar/Sidebar";
+import { useStyles } from "./Navbar.style";
+import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import { useThemeContext } from "../../contexts/Theme.context";
+import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 
 const Navbar = () => {
-  const { theme, toggleTheme } = useThemeContext();
-  const styles = useStyles(theme);
+  const styles = useStyles();
+  const { toggleTheme } = useThemeContext();
 
   return (
     <>

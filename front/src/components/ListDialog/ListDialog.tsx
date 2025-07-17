@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import type { FC, JSX } from "react";
 import { useStyles } from "./ListDialog.style";
-import type { TClass } from "../../types/class.type";
 
 export interface IDialogProps {
   open: boolean;
@@ -19,6 +18,7 @@ export interface IDialogProps {
   listTitle: string;
   emptyListTitle: string;
   listItems: { key: number | string; title: string }[];
+  handleAction: (id: string | number) => Promise<void>;
 }
 
 const ListDialog: FC<IDialogProps> = ({
@@ -29,6 +29,7 @@ const ListDialog: FC<IDialogProps> = ({
   listItems,
   emptyListTitle,
   listTitle,
+  handleAction,
 }) => {
   const styles = useStyles();
 
@@ -38,8 +39,8 @@ const ListDialog: FC<IDialogProps> = ({
         <>
           <DialogTitle sx={styles.dialogTitle}>{listTitle}</DialogTitle>
           <List sx={styles.list}>
-            {listItems.map((item, index) => (
-              <ListItem disablePadding key={index} sx={styles.studentInfo}>
+            {listItems.map((item) => (
+              <ListItem disablePadding key={item.key} sx={styles.studentInfo}>
                 <ListItemAvatar sx={styles.avatar}>
                   {avatartIcon}
                 </ListItemAvatar>
@@ -48,7 +49,9 @@ const ListDialog: FC<IDialogProps> = ({
                   sx={styles.studentName}
                   slotProps={{ primary: styles.studentName }}
                 />
-                <ListItemButton>{actionIcon}</ListItemButton>
+                <ListItemButton onClick={() => handleAction(item.key)}>
+                  {actionIcon}
+                </ListItemButton>
               </ListItem>
             ))}
           </List>

@@ -1,26 +1,33 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
-import { setClasses } from "../redux/slices/class.slice";
-import classService from "../pages/ClassPage/class.service";
-import { setStudents } from "../redux/slices/student.slice";
-import studentService from "../pages/StudentsPage/student.service";
+import type { UnknownAction } from "@reduxjs/toolkit";
 
-const useFetchAndDispatch = (queryKey: string) => {
-    const { data, isSuccess } = useQuery({
-    queryKey: [queryKey],
-    queryFn: queryKey === "students" ? () => studentService.getAllStudents() : () => classService.getAllClasses(),
-  });
-
+const useFetchIfNeeded = (
+  isLoaded: boolean,
+  queryKey: string,
+  serviceAction: () => void,
+  dispatchAction: (data: any) => UnknownAction
+) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      dispatch( queryKey === "students" ? setStudents(data) : setClasses(data));
-    }
-  }, [isSuccess, data]);
+    const { data, isSuccess } = useQuery({
+      queryKey: [queryKey],
+      queryFn: serviceAction,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      enabled: isLoaded
+    });
 
-  return [data];
+    useEffect(() => {
+      if (isSuccess && data && isLoaded) {
+        dispatch(dispatchAction(data));
+      }
+    }, [data, isSuccess]);
+  
+
+  return;
 };
 
-export default useFetchAndDispatch;
+export default useFetchIfNeeded;
+

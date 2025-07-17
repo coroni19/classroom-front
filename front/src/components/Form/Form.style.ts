@@ -1,8 +1,11 @@
 import { themes } from "../../../themes";
 import { createStyles } from "../../styles/createStyle";
+import { useThemeContext } from "../../contexts/Theme.context";
 
-export const useStyles = (theme: { color: string }) =>
-  createStyles({
+export const useStyles = () => {
+    const { theme } = useThemeContext();
+  
+  return createStyles({
     formContainer: {
       display: "flex",
       flexDirection: "column",
@@ -10,6 +13,8 @@ export const useStyles = (theme: { color: string }) =>
       margin: "0px 200px",
     },
     field: {
+      width: "16rem",
+      maxWidth: "25rem",
       marginTop: "10px",
       "& .MuiOutlinedInput-root.Mui-focused fieldset": {
         borderColor: theme.color,
@@ -17,13 +22,20 @@ export const useStyles = (theme: { color: string }) =>
       "& .MuiInputLabel-root.Mui-focused": theme,
     },
     formTitle: {
-      fontSize: "38px",
+      fontSize: "40px",
+      marginBottom: "1rem"
     },
     button: {
       backgroundColor: theme.color,
       ...themes.transition,
       color: "white",
-      width: "250px",
-      marginTop: "15px",
+      width: "16rem",
+      margin: "15px",
     },
-  });
+    noArrowsOnNumberFeild: {
+      "input::-webkit-outer-spin-button, input::-webkit-inner-spin-button": {
+        WebkitAppearance: "none",
+        margin: "0"
+      }
+    }
+  });}
