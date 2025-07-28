@@ -3,39 +3,47 @@ import { createStyles } from "../../styles/createStyle";
 import { useThemeContext } from "../../contexts/Theme.context";
 
 export const useStyles = () => {
-    const { theme } = useThemeContext();
-  
+  const { theme } = useThemeContext();
+
   return createStyles({
-    formContainer: {
+    formTitle: {
+      fontSize: "40px",
+      marginBottom: "1rem",
+    },
+    alert: {
+      width: "17rem",
       display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
+      marginTop: "2rem",
+      justifyContent: "start",
+    },
+    formContainer: {
+      width: "22rem",
+      display: "flex",
       margin: "0px 200px",
+      alignItems: "center",
+      flexDirection: "column",
+    },
+    button: {
+      color: "white",
+      width: "16rem",
+      margin: "15px",
+      ...themes.transition,
+      backgroundColor: theme.color,
     },
     field: {
       width: "16rem",
       maxWidth: "25rem",
       marginTop: "10px",
+      "& .MuiInputLabel-root.Mui-focused": theme,
       "& .MuiOutlinedInput-root.Mui-focused fieldset": {
         borderColor: theme.color,
       },
-      "& .MuiInputLabel-root.Mui-focused": theme,
-    },
-    formTitle: {
-      fontSize: "40px",
-      marginBottom: "1rem"
-    },
-    button: {
-      backgroundColor: theme.color,
-      ...themes.transition,
-      color: "white",
-      width: "16rem",
-      margin: "15px",
     },
     noArrowsOnNumberFeild: {
       "input::-webkit-outer-spin-button, input::-webkit-inner-spin-button": {
+        margin: "0",
         WebkitAppearance: "none",
-        margin: "0"
-      }
-    }
-  });}
+      },
+    },
+  });
+};

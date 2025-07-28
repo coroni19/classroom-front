@@ -10,56 +10,30 @@ class StudentService {
   }
 
   public async getAllStudents(): Promise<IStudent | null> {
-    try {
-      const res = await this.api.get("");
-      return res.data;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
+    const res = await this.api.get("");
+    return res.data;
   }
 
   public async deleteStudent(id: string): Promise<void> {
-    try {
-      await this.api.delete(`/${id}`);
-      console.log(`Student with id ${id} deleted successfully.`);
-    } catch (error) {
-      console.log(error);
-    }
+    await this.api.delete(`/${id}`);
   }
 
   public async assign(studentId: string, classId: number): Promise<void> {
-    try {
-      await this.api.patch(`/assign/${studentId}`, {classId: classId});
-      console.log(
-        `Student with id ${studentId} successfully assigned to class with id ${classId}.`
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    await this.api.patch(`/assign/${studentId}`, { classId: classId });
   }
 
   public async unassign(studentId: string): Promise<void> {
-    try {
-      await this.api.patch(`/unassign/${studentId}`);
-      console.log(`Student with id ${studentId} successfully unassigned.`);
-    } catch (error) {
-      console.log(error);
-    }
+    await this.api.patch(`/unassign/${studentId}`);
   }
 
   public async createStudent(studentDto: IStudentDto): Promise<void> {
-    try {
-      await this.api.post("", {
-        studentId: studentDto.studentId,
-        firstName: studentDto.firstName,
-        lastName: studentDto.lastName,
-        age: Number(studentDto.age),
-        profession: studentDto.profession,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await this.api.post("", {
+      studentId: studentDto.studentId,
+      firstName: studentDto.firstName,
+      lastName: studentDto.lastName,
+      age: Number(studentDto.age),
+      profession: studentDto.profession,
+    });
   }
 }
 

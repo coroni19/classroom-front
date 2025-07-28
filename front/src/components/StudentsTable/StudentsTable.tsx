@@ -9,19 +9,21 @@ import {
   TableHead,
   TableContainer,
 } from "@mui/material";
-import { useState, type FC } from "react";
-import { useQueryClient } from "react-query";
+
 import AddIcon from "@mui/icons-material/Add";
-import { titles } from "./StudentTable.const";
 import { useStyles } from "./StudentsTable.style";
 import ListDialog from "../ListDialog/ListDialog";
+import { useMemo, useState, type FC } from "react";
 import SchoolIcon from "@mui/icons-material/School";
 import { useDispatch, useSelector } from "react-redux";
 import studentService from "../../services/student.service";
+import { studentKeys, tableTitles } from "./StudentTable.const";
 import type { IStudent } from "../../interfaces/student.interface";
 import { classSelector } from "../../redux/selectors/class.selector";
+import { NO_AVAILABLE_CLASSES_MESSAGE, SOMETHING_WENT_WROG_MESSAGE } from "../../constants/messages.const";
 import { assignClass, deleteStudent } from "../../redux/slices/student.slice";
 import { assignStudent, unAssignStudent } from "../../redux/slices/class.slice";
+import { toastify } from "../../utilities/toastify/toastify.utility";
 
 interface IStudentsTableProps {
   students: IStudent[];
@@ -30,6 +32,7 @@ interface IStudentsTableProps {
 const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
   const styles = useStyles();
   const dispatch = useDispatch();
+
   const classes = useSelector(classSelector);
 
   const [selectedStudent, setSelectedStudent] = useState<IStudent | null>(null);
@@ -42,48 +45,64 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
     setSelectedStudent(null);
   };
 
-  const queryClient = useQueryClient();
+  const handleAction = async (classId: string) => {
+    if (!selectedStudent) {      
+      return;
+    }
 
-  const handleAction = async (classId: string | number) => {
-    if (selectedStudent) {
-      await studentService.assign(selectedStudent.studentId, Number(classId)),
-
+    await studentService.assign(selectedStudent.studentId, Number(classId)),
       dispatch(
         unAssignStudent({
-          classId: selectedStudent.classId!,
+          classId: Number(selectedStudent.classId),
           studentId: selectedStudent.studentId,
         })
       );
-      dispatch(
-        assignStudent({
-          classId: Number(classId),
-          student: selectedStudent,
-        })
-      );
-      dispatch(
-        assignClass({
-          classId: Number(classId),
-          studentId: selectedStudent.studentId,
-        })
-      );
+    dispatch(
+      assignStudent({
+        classId: Number(classId),
+        student: selectedStudent,
+      })
+    );
+    dispatch(
+      assignClass({
+        classId: Number(classId),
+        studentId: selectedStudent.studentId,
+      })
+    );
 
-      handleClose();
-    }
+    handleClose();
   };
 
   const handleDelete = async (student: IStudent) => {
-    await queryClient.fetchQuery({
-      queryKey: ["deleteStudent", student.studentId],
-      queryFn: () => studentService.deleteStudent(student.studentId),
-    });
-    dispatch(deleteStudent(student.studentId));
-    dispatch(
-      unAssignStudent({
-        classId: Number(student.classId),
-        studentId: student.studentId,
-      })
-    );
+    try {
+      await studentService.deleteStudent(student.studentId);
+      dispatch(deleteStudent(student.studentId));
+      dispatch(
+        unAssignStudent({
+          classId: Number(student.classId),
+          studentId: student.studentId,
+        })
+      );
+    } catch (error) {
+      toastify("error", SOMETHING_WENT_WROG_MESSAGE);
+    }
   };
+
+  const filteredAndFormatedClasses = useMemo(() => {
+    if (!selectedStudent) {
+      return [];
+    }
+
+    const filteredClasses = classes.filter(
+      (cls) =>
+        cls.students.length < cls.maxSeats &&
+        cls.classId !== selectedStudent.classId
+    );
+
+    return filteredClasses.map(({ classId, className }) => {
+      return { key: String(classId), title: className };
+    });
+  }, [classes, selectedStudent]);
 
   return (
     <>
@@ -91,7 +110,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              {titles.map((title) => (
+              {tableTitles.map((title) => (
                 <TableCell key={title} align="center">
                   {title}
                 </TableCell>
@@ -101,12 +120,11 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
           <TableBody>
             {students.map((student) => (
               <TableRow key={student.studentId}>
-                <TableCell align="center">{student.studentId}</TableCell>
-                <TableCell align="center">{student.firstName}</TableCell>
-                <TableCell align="center">{student.lastName}</TableCell>
-                <TableCell align="center">{student.age}</TableCell>
-                <TableCell align="center">{student.profession}</TableCell>
-
+                {studentKeys.map((key) => (
+                  <TableCell key={key} align="center">
+                    {student[key]}
+                  </TableCell>
+                ))}
                 <TableCell align="center">
                   <Button
                     sx={styles.buttons}
@@ -130,26 +148,18 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
       </TableContainer>
       {selectedStudent && (
         <ListDialog
-          open={Boolean(selectedStudent)}
           onClose={handleClose}
-          actionIcon={<AddIcon sx={styles.addIcon}></AddIcon>}
           handleAction={handleAction}
+          listTitle="Available Classes"
+          open={Boolean(selectedStudent)}
           avatartIcon={
             <Avatar sx={styles.classIcon}>
               <SchoolIcon />
             </Avatar>
           }
-          listTitle="Available Classes"
-          emptyListTitle="There Are No Available Classes"
-          listItems={classes
-            .filter(
-              (cls) =>
-                (cls.students.length < cls.maxSeats &&
-                cls.classId !== selectedStudent.classId)
-            )
-            .map(({ classId, className }) => {
-              return { key: classId, title: className };
-            })}
+          listItems={filteredAndFormatedClasses}
+          emptyListTitle={NO_AVAILABLE_CLASSES_MESSAGE}
+          actionIcon={<AddIcon sx={styles.addIcon}></AddIcon>}
         />
       )}
     </>

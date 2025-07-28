@@ -1,12 +1,18 @@
+import {
+  DELETE_CLASS_ERROR_MESSAGE,
+  SOMETHING_WENT_WROG_MESSAGE,
+} from "../../constants/messages.const";
+
 import { type FC } from "react";
-import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useStyles } from "./ClassCard.style";
 import DeleteIcon from "@mui/icons-material/Delete";
 import classService from "../../services/class.service";
 import { deleteClass } from "../../redux/slices/class.slice";
 import type { IClass } from "../../interfaces/class.interface";
+import type { IStudent } from "../../interfaces/student.interface";
 import { Button, Card, IconButton, Typography } from "@mui/material";
+import { toastify } from "../../utilities/toastify/toastify.utility";
 
 interface IClassProps {
   cls: IClass;
@@ -15,25 +21,22 @@ interface IClassProps {
 
 const ClassCard: FC<IClassProps> = ({ cls, handleOpen }) => {
   const styles = useStyles();
+  const dispatch = useDispatch();
 
   const seatsLeft = cls.maxSeats - cls.students.length;
 
-  const dispatch = useDispatch();
-
-  const handleDelete = async () => {
-    await classService.deleteClass(cls.classId)
-    dispatch(deleteClass({ classId: cls.classId }));
+  const handleDelete = async (students: IStudent[]) => {
+    if (students.length !== 0) {
+      toastify("error", DELETE_CLASS_ERROR_MESSAGE);
+      return;
+    }
+    try {
+      await classService.deleteClass(cls.classId);
+      dispatch(deleteClass({ classId: cls.classId }));
+    } catch (error) {
+      toastify("error", SOMETHING_WENT_WROG_MESSAGE);
+    }
   };
-
-  const notify = () =>
-    toast.error("Error: class cannot be deleted if students are assigned", {
-      position: "bottom-right",
-      autoClose: 4000,
-      closeButton: false,
-      hideProgressBar: true,
-      // icon: <ErrorOutlineIcon sx={styles.errorIcon}/>,
-      style: styles.errorToastify,
-    });
 
   return (
     <Card sx={styles.card}>
@@ -52,10 +55,7 @@ const ClassCard: FC<IClassProps> = ({ cls, handleOpen }) => {
         <Button sx={styles.studentsList} onClick={() => handleOpen(cls)}>
           students list
         </Button>
-
-        <IconButton
-          onClick={cls.students.length === 0 ? () => handleDelete() : notify}
-        >
+        <IconButton onClick={() => handleDelete(cls.students)}>
           <DeleteIcon sx={styles.icons} />
         </IconButton>
         <div></div>

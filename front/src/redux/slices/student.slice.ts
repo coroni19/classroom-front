@@ -38,6 +38,12 @@ export const studentSlice = createSlice({
   },
 });
 
-export const { setStudents, deleteStudent, unAssignClass, assignClass, addStudent } =
-  studentSlice.actions;
+export const {
+  addStudent,
+  setStudents,
+  assignClass,
+  deleteStudent,
+  unAssignClass,
+} = studentSlice.actions;
+
 export const studentsReducer = studentSlice.reducer;

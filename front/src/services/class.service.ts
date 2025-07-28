@@ -10,34 +10,20 @@ class ClassService {
   }
 
   public async getAllClasses(): Promise<IClass | null> {
-    try {
-      const res = await this.api.get("");
-      return res.data;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
+    const res = await this.api.get("");
+    return res.data;
   }
 
   public async createClass(classDto: IClassDto): Promise<any> {
-    try {
-      await this.api.post("", {
-        classId: Number(classDto.classId),
-        className: classDto.className,
-        maxSeats: Number(classDto.maxSeats),
-      });
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    await this.api.post("", {
+      classId: Number(classDto.classId),
+      className: classDto.className,
+      maxSeats: Number(classDto.maxSeats),
+    });
   }
 
   public async deleteClass(classId: number): Promise<void> {
-    try {
-      await this.api.delete(`/${classId}`);
-    } catch (error) {
-      throw error;
-    }
+    await this.api.delete(`/${classId}`);
   }
 }
 

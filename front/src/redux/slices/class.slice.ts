@@ -19,7 +19,7 @@ export const classSlice = createSlice({
       action: PayloadAction<{ classId: number; studentId: string }>
     ) => {
       return [...state].map((cls) => {
-        if (cls.classId == action.payload.classId) {
+        if (cls.classId === action.payload.classId) {
           return {
             ...cls,
             students: cls.students.filter(
@@ -35,7 +35,7 @@ export const classSlice = createSlice({
       action: PayloadAction<{ student: IStudent; classId: number }>
     ) => {
       return [...state].map((cls) => {
-        if (cls.classId == action.payload.classId) {
+        if (cls.classId === action.payload.classId) {
           return {
             ...cls,
             students: [...cls.students, action.payload.student],
@@ -44,15 +44,18 @@ export const classSlice = createSlice({
         return cls;
       });
     },
-    deleteClass: (
-      state,
-      action: PayloadAction<{classId: number }>
-    ) => {
+    deleteClass: (state, action: PayloadAction<{ classId: number }>) => {
       return [...state].filter((cls) => cls.classId !== action.payload.classId);
     },
   },
 });
 
-export const { setClasses, unAssignStudent, assignStudent, addClass, deleteClass } =
-  classSlice.actions;
+export const {
+  addClass,
+  setClasses,
+  deleteClass,
+  assignStudent,
+  unAssignStudent,
+} = classSlice.actions;
+
 export const classesReducer = classSlice.reducer;

@@ -6,26 +6,27 @@ export const useStyles = () => {
   const { theme } = useThemeContext();
 
   return createStyles({
-    navbar: {
-      width: "100vw",
-      height: "97px",
-      position: "absolute ",
-      top: 0,
-      left: 0,
-      right: 0,
-      display: "inline-flex",
-      justifyContent: "center",
-      backgroundColor: theme.color,
-      ...themes.transition,
-    },
-    appName: {
-      fontFamily: "Roboto",
-      fontSize: "32px",
-    },
     darkModeIcon: {
       width: "30px",
       height: "30px",
       color: "white",
+    },
+    appName: {
+      fontSize: "32px",
+      fontFamily: "Roboto !importent",
+    },
+    navbar: {
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: "10",
+      width: "100vw",
+      height: "97px",
+      position: "fixed",
+      ...themes.transition,
+      display: "inline-flex",
+      justifyContent: "center",
+      backgroundColor: theme.color,
     },
   });
 };

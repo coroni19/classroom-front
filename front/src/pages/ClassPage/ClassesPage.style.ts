@@ -7,14 +7,16 @@ export const useStyles = () => {
 
   return createStyles({
     classCardContainer: {
-      display: "flex",
       gap: "6rem",
-      flexWrap: "wrap",
+      display: "flex",
       maxWidth: "95%",
+      flexWrap: "wrap",
+      position: "absolute",
+      left: "6rem"
     },
     personIcon: {
-      bgcolor: "#C4C4C4",
       color: "white",
+      bgcolor: "#C4C4C4",
     },
     icons: {
       ...theme,

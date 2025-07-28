@@ -3,17 +3,12 @@ import { createStyles } from "../../styles/createStyle";
 import { useThemeContext } from "../../contexts/Theme.context";
 
 export const useStyles = () => {
-    const { theme } = useThemeContext();
+  const { theme } = useThemeContext();
 
-    return createStyles({
-    card: {
-      width: "200px",
-      height: "188px",
-      borderRadius: "4px",
-      boxShadow: "0px 4px 4px 0px #00000040",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-around",
+  return createStyles({
+    studentsList: {
+      color: "black",
+      fontSize: "16px",
     },
     className: {
       fontSize: "20px",
@@ -26,31 +21,35 @@ export const useStyles = () => {
       color: "#8F8F8F",
       fontSize: "14px",
     },
-    studentsList: {
-      color: "black",
-      fontSize: "16px",
+    personIcon: {
+      color: "white",
+      bgcolor: "#C4C4C4",
+    },
+    header: {
+      padding: "0px 20px",
+    },
+    icons: {
+      ...theme,
+      ...themes.transition,
     },
     footer: {
       display: "flex",
       justifyContent: "center",
     },
-    header: {
-      padding: "0px 20px",
-    },
-    personIcon: {
-      bgcolor: "#C4C4C4",
-      color: "white",
-    },
-    icons: {
-      ...theme,
-      ...themes.transition
-    },
     errorToastify: {
       width: "28rem",
-      backgroundColor: "#ecc8c5",
       color: "#c03e3d",
-      fontFamily: "inherit"
-    }
+      fontFamily: "inherit",
+      backgroundColor: "#ecc8c5",
+    },
+    card: {
+      width: "200px",
+      height: "188px",
+      display: "flex",
+      borderRadius: "4px",
+      flexDirection: "column",
+      justifyContent: "space-around",
+      boxShadow: "0px 4px 4px 0px #00000040",
+    },
   });
-}
-  
+};

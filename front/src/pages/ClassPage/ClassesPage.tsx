@@ -1,33 +1,36 @@
-import { useState } from "react";
 import { Avatar } from "@mui/material";
+import { useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import { useStyles } from "./ClassesPage.style";
 import PersonIcon from "@mui/icons-material/Person";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch, useSelector } from "react-redux";
 import classService from "../../services/class.service";
 import studentService from "../../services/student.service";
 import ClassCard from "../../components/ClassCrad/ClassCard";
+import useFetchData from "../../hooks/use-fetch-dispatch.hook";
 import type { IClass } from "../../interfaces/class.interface";
 import ListDialog from "../../components/ListDialog/ListDialog";
 import { unAssignClass } from "../../redux/slices/student.slice";
-import useFetchIfNeeded from "../../hooks/useFetchDispatch.hook";
 import { classSelector } from "../../redux/selectors/class.selector";
 import { setClasses, unAssignStudent } from "../../redux/slices/class.slice";
-import { ToastContainer } from "react-toastify";
+import { NO_STUDENTS_IN_CLASS_MESSAGE } from "../../constants/messages.const";
+import Loader from "../../components/Loader/Loader";
+import Redirect from "../../components/Redirect/Redirect";
 
 const ClassPage = () => {
-  const classes = useSelector(classSelector);
-
-  useFetchIfNeeded(
-    classes.length === 0 ? true : false,
-    "classes",
-    () => classService.getAllClasses(),
-    (data: any) => setClasses(data)
-  );
-
   const styles = useStyles();
+  const dispatch = useDispatch();
 
   const [selectedClass, setSelectedClass] = useState<IClass | null>(null);
+
+  const { data: classes, isLoading } = useFetchData({
+    selector: classSelector,
+    isLoaded: (data: IClass[]) => data.length > 0,
+    queryKey: "classes",
+    serviceAction: () => classService.getAllClasses(),
+    dispatchAction: (data: IClass[]) => setClasses(data),
+  });
 
   const handleOpen = (cls: IClass) => {
     setSelectedClass(cls);
@@ -37,59 +40,87 @@ const ClassPage = () => {
     setSelectedClass(null);
   };
 
-  const dispatch = useDispatch();
-
-  const handleAction = async (studentId: string | number) => {
-    if (selectedClass) {
-      await studentService.unassign(String(studentId))
-
-      dispatch(
-        unAssignStudent({
-          classId: selectedClass.classId,
-          studentId: String(studentId),
-        })
-      );
-      dispatch(unAssignClass({ studentId: String(studentId) }));
+  const handleAction = async (studentId: string) => {
+    if (!selectedClass) {
+      return;
     }
+
+    await studentService.unassign(studentId);
+
+    dispatch(
+      unAssignStudent({
+        classId: selectedClass.classId,
+        studentId: studentId,
+      })
+    );
+    dispatch(unAssignClass({ studentId: studentId }));
   };
+
+  const filteredAndFormatedStudents = useMemo(() => {
+    if (!selectedClass) {
+      return [];
+    }
+
+    const filteredClass = classes.find(
+      (cls) => cls.classId === selectedClass.classId
+    );
+
+    if (!filteredClass) {
+      return [];
+    }
+
+    return filteredClass.students.map(({ firstName, lastName, studentId }) => {
+      return {
+        key: studentId,
+        title: firstName.concat(" " + lastName),
+      };
+    });
+  }, [classes, selectedClass]);
+
   return (
     <>
-      <div style={styles.classCardContainer}>
-        {classes.map((classData) => (
-          <ClassCard
-            key={classData.classId}
-            handleOpen={handleOpen}
-            cls={classData}
-          />
-        ))}
-      </div>
-      
-      {selectedClass && (
-        <ListDialog
-          open={Boolean(selectedClass)}
-          onClose={handleClose}
-          actionIcon={<DeleteIcon sx={styles.icons}></DeleteIcon>}
-          avatartIcon={
-            <Avatar sx={styles.personIcon}>
-              <PersonIcon />
-            </Avatar>
-          }
-          handleAction={handleAction}
-          listTitle="Class Students"
-          emptyListTitle="There Are No Students In This Class"
-          listItems={
-            classes
-              .find((cls) => cls === selectedClass)
-              ?.students.map(({ firstName, lastName, studentId }) => {
-                return {
-                  key: studentId,
-                  title: firstName.concat(" " + lastName),
-                };
-              }) || []
-          }
-        />
+      {!isLoading ? (
+        <>
+          {classes.length !== 0 ? (
+            <>
+              <div style={styles.classCardContainer}>
+                {classes.map((classData) => (
+                  <ClassCard
+                    cls={classData}
+                    key={classData.classId}
+                    handleOpen={handleOpen}
+                  />
+                ))}
+              </div>
+              {selectedClass && (
+                <ListDialog
+                  onClose={handleClose}
+                  open={Boolean(selectedClass)}
+                  avatartIcon={
+                    <Avatar sx={styles.personIcon}>
+                      <PersonIcon />
+                    </Avatar>
+                  }
+                  listTitle="Class Students"
+                  handleAction={handleAction}
+                  listItems={filteredAndFormatedStudents}
+                  emptyListTitle={NO_STUDENTS_IN_CLASS_MESSAGE}
+                  actionIcon={<DeleteIcon sx={styles.icons}></DeleteIcon>}
+                />
+              )}
+              <ToastContainer />
+            </>
+          ) : (
+            <Redirect
+              message="There are no classes yet"
+              buttonText="create a new class"
+              navigationPath="/create"
+            />
+          )}
+        </>
+      ) : (
+        <Loader />
       )}
-      <ToastContainer/>
     </>
   );
 };

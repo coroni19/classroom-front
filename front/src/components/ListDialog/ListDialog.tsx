@@ -4,32 +4,33 @@ import {
   ListItem,
   DialogTitle,
   ListItemText,
-  ListItemButton,
   ListItemAvatar,
+  ListItemButton,
 } from "@mui/material";
+
 import type { FC, JSX } from "react";
 import { useStyles } from "./ListDialog.style";
 
 export interface IDialogProps {
   open: boolean;
+  listTitle: string;
   onClose: () => void;
+  emptyListTitle: string;
   actionIcon: JSX.Element;
   avatartIcon: JSX.Element;
-  listTitle: string;
-  emptyListTitle: string;
-  listItems: { key: number | string; title: string }[];
-  handleAction: (id: string | number) => Promise<void>;
+  listItems: { key: string; title: string }[];
+  handleAction: (id: string) => Promise<void>;
 }
 
 const ListDialog: FC<IDialogProps> = ({
   open,
   onClose,
+  listItems,
+  listTitle,
   actionIcon,
   avatartIcon,
-  listItems,
-  emptyListTitle,
-  listTitle,
   handleAction,
+  emptyListTitle,
 }) => {
   const styles = useStyles();
 

@@ -1,39 +1,57 @@
-import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import { useStyles } from "./StudentsPage.style";
+import Loader from "../../components/Loader/Loader";
 import classService from "../../services/class.service";
+import Redirect from "../../components/Redirect/Redirect";
 import { setClasses } from "../../redux/slices/class.slice";
 import studentService from "../../services/student.service";
 import { setStudents } from "../../redux/slices/student.slice";
-import useFetchIfNeeded from "../../hooks/useFetchDispatch.hook";
+import type { IClass } from "../../interfaces/class.interface";
+import useFetchData from "../../hooks/use-fetch-dispatch.hook";
+import type { IStudent } from "../../interfaces/student.interface";
 import { classSelector } from "../../redux/selectors/class.selector";
-import { studentSelector } from "../../redux/selectors/student.selector";
 import StudentsTable from "../../components/StudentsTable/StudentsTable";
+import { studentSelector } from "../../redux/selectors/student.selector";
 
 const StudentsPage = () => {
   const styles = useStyles();
-  const students = useSelector(studentSelector);
 
-  useFetchIfNeeded(
-    students.length === 0 ? true : false,
-    "students",
-    () => studentService.getAllStudents(),
-    (data: any) => setStudents(data)
-  );
+  const { data: students, isLoading } = useFetchData({
+    selector: studentSelector,
+    isLoaded: (data: IStudent[]) => data.length > 0,
+    queryKey: "students",
+    serviceAction: () => studentService.getAllStudents(),
+    dispatchAction: (data: IStudent[]) => setStudents(data),
+  });
 
-  const classes = useSelector(classSelector);
-
-  useFetchIfNeeded(
-    classes.length === 0 ? true : false,
-    "classes",
-    () => classService.getAllClasses(),
-    (data: any) => setClasses(data)
-  );
+  useFetchData({
+    selector: classSelector,
+    isLoaded: (data: IClass[]) => data.length > 0,
+    queryKey: "classes",
+    serviceAction: () => classService.getAllClasses(),
+    dispatchAction: (data: IClass[]) => setClasses(data),
+  });
 
   return (
     <>
-      <div style={styles.studentsTableContainer}>
-        <StudentsTable students={students} />
-      </div>
+      {!isLoading ? (
+        <>
+          {students.length !== 0 ? (
+            <div style={styles.studentsTableContainer}>
+              <StudentsTable students={students} />
+            </div>
+          ) : (
+            <Redirect
+              message="There are no students yet"
+              buttonText="create a new student"
+              navigationPath="/create"
+            />
+          )}
+        </>
+      ) : (
+        <Loader />
+      )}
+      <ToastContainer />
     </>
   );
 };

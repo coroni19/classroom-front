@@ -3,8 +3,8 @@ import { createStyles } from "../styles/createStyle";
 export const useStyles = () =>
   createStyles({
     main: {
-      marginTop: "160px",
       display: "flex",
+      marginTop: "160px",
       justifyContent: "center",
     },
   });

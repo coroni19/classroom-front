@@ -1,7 +1,7 @@
 import { classesReducer } from "./slices/class.slice";
+import { studentsReducer } from "./slices/student.slice";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import type { PreloadedStateShapeFromReducersMapObject as PreloadedState } from "@reduxjs/toolkit";
-import { studentsReducer } from "./slices/student.slice";
 
 export const combinedReducers = combineReducers({
   classes: classesReducer,

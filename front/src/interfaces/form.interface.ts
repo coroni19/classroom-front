@@ -3,8 +3,9 @@ import type { Path, RegisterOptions, FieldValues } from "react-hook-form";
 
 export interface IForm<T extends FieldValues> {
   title: string;
-  fields: IField<T>[];
   buttonText: string;
+  fields: IField<T>[];
+  successMessage: string;
 }
 
 interface IField<T extends FieldValues> extends Omit<TextFieldProps, "key"> {
