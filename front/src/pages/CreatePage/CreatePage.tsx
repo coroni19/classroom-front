@@ -22,7 +22,7 @@ const CreatePage = () => {
   const handleSubmitClass = async (feildData: IClassDto) => {
     await classService.createClass(feildData);
 
-    if (classes.length >= 1) {
+    if (classes.length !== 0) {
       dispatch(addClass({ ...feildData, students: [] }));
     }
   };
