@@ -1,8 +1,8 @@
 import { Avatar } from "@mui/material";
 import { useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { useStyles } from "./ClassesPage.style";
+import { useAppDispatch } from "../../redux/store";
 import PersonIcon from "@mui/icons-material/Person";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Loader from "../../components/Loader/Loader";
@@ -15,19 +15,20 @@ import useFetchData from "../../hooks/use-fetch-dispatch.hook";
 import type { IClass } from "../../interfaces/class.interface";
 import ListDialog from "../../components/ListDialog/ListDialog";
 import { classSelector } from "../../redux/selectors/class.selector";
+import { FETCH_CLASSES_QUERY_KEY } from "../../constants/keys.const";
 import { NO_STUDENTS_IN_CLASS_MESSAGE } from "../../constants/messages.const";
 import { handleUnAssignStudentFromClass } from "../../redux/actions/student.action";
 
 const ClassPage = () => {
   const styles = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [selectedClass, setSelectedClass] = useState<IClass | null>(null);
 
   const { data: classes, isLoading } = useFetchData({
     selector: classSelector,
     isLoaded: (data: IClass[]) => data.length > 0,
-    queryKey: "classes",
+    queryKey: FETCH_CLASSES_QUERY_KEY,
     serviceAction: () => classService.getAllClasses(),
     dispatchAction: (data: IClass[]) => setClasses(data),
   });

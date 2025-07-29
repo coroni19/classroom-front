@@ -1,3 +1,3 @@
 import type { RootState } from "../store";
 
-export const classSelector = (state: RootState) => state.classes;
+export const classSelector = (state: RootState) => state.classesState;

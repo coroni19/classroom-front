@@ -20,10 +20,10 @@ import { useStyles } from "./StudentsTable.style";
 import ListDialog from "../ListDialog/ListDialog";
 import { useMemo, useState, type FC } from "react";
 import SchoolIcon from "@mui/icons-material/School";
-import { useDispatch, useSelector } from "react-redux";
 import studentService from "../../services/student.service";
 import { studentKeys, tableTitles } from "./StudentTable.const";
 import type { IStudent } from "../../interfaces/student.interface";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { classSelector } from "../../redux/selectors/class.selector";
 import { toastify } from "../../utilities/toastify/toastify.utility";
 import { handleDeleteStudent } from "../../redux/actions/class.action";
@@ -35,9 +35,9 @@ interface IStudentsTableProps {
 
 const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
   const styles = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const classes = useSelector(classSelector);
+  const classes = useAppSelector(classSelector);
 
   const [selectedStudent, setSelectedStudent] = useState<IStudent | null>(null);
 

@@ -4,8 +4,8 @@ import {
 } from "../../constants/messages.const";
 
 import { type FC } from "react";
-import { useDispatch } from "react-redux";
 import { useStyles } from "./ClassCard.style";
+import { useAppDispatch } from "../../redux/store";
 import DeleteIcon from "@mui/icons-material/Delete";
 import classService from "../../services/class.service";
 import { deleteClass } from "../../redux/slices/class.slice";
@@ -21,7 +21,7 @@ interface IClassProps {
 
 const ClassCard: FC<IClassProps> = ({ cls, handleOpen }) => {
   const styles = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const seatsLeft = cls.maxSeats - cls.students.length;
 

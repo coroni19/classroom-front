@@ -2,22 +2,22 @@ import { classForm } from "./classForm.const";
 import Form from "../../components/Form/Form";
 import { useStyles } from "./CreatePage.style";
 import { studentForm } from "./studentForm.const";
-import { useDispatch, useSelector } from "react-redux";
 import classService from "../../services/class.service";
 import { addClass } from "../../redux/slices/class.slice";
 import studentService from "../../services/student.service";
 import { addStudent } from "../../redux/slices/student.slice";
 import type { IClassDto } from "../../interfaces/class.interface";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { classSelector } from "../../redux/selectors/class.selector";
 import type { IStudentDto } from "../../interfaces/student.interface";
 import { studentSelector } from "../../redux/selectors/student.selector";
 
 const CreatePage = () => {
   const styles = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const classes = useSelector(classSelector);
-  const students = useSelector(studentSelector);
+  const classes = useAppSelector(classSelector);
+  const students = useAppSelector(studentSelector);
 
   const handleSubmitClass = async (feildData: IClassDto) => {
     await classService.createClass(feildData);

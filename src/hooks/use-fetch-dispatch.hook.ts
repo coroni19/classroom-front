@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import type { RootState } from "../redux/store";
 import type { UnknownAction } from "@reduxjs/toolkit";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector, type RootState } from "../redux/store";
 
 const useFetchData = <T>(options: {
   queryKey: string;
@@ -11,8 +10,8 @@ const useFetchData = <T>(options: {
   selector: (state: RootState) => T;
   dispatchAction: (data: T) => UnknownAction;
 }) => {
-  const dispatch = useDispatch();
-  const reduxData = useSelector(options.selector);
+  const dispatch = useAppDispatch();
+  const reduxData = useAppSelector(options.selector);
 
   const { data, isSuccess, isLoading } = useQuery({
     queryKey: [options.queryKey],

@@ -12,6 +12,7 @@ import type { IStudent } from "../../interfaces/student.interface";
 import { classSelector } from "../../redux/selectors/class.selector";
 import StudentsTable from "../../components/StudentsTable/StudentsTable";
 import { studentSelector } from "../../redux/selectors/student.selector";
+import { FETCH_CLASSES_QUERY_KEY, FETCH_STUDENTS_QUERY_KEY } from "../../constants/keys.const";
 
 const StudentsPage = () => {
   const styles = useStyles();
@@ -19,7 +20,7 @@ const StudentsPage = () => {
   const { data: students, isLoading } = useFetchData({
     selector: studentSelector,
     isLoaded: (data: IStudent[]) => data.length > 0,
-    queryKey: "students",
+    queryKey: FETCH_STUDENTS_QUERY_KEY,
     serviceAction: () => studentService.getAllStudents(),
     dispatchAction: (data: IStudent[]) => setStudents(data),
   });
@@ -27,7 +28,7 @@ const StudentsPage = () => {
   useFetchData({
     selector: classSelector,
     isLoaded: (data: IClass[]) => data.length > 0,
-    queryKey: "classes",
+    queryKey: FETCH_CLASSES_QUERY_KEY,
     serviceAction: () => classService.getAllClasses(),
     dispatchAction: (data: IClass[]) => setClasses(data),
   });
