@@ -57,5 +57,5 @@ export const classForm: IForm<IClassDto> = {
     },
   ],
   buttonText: "CREATE CLASS",
-  successMessage: CLASS_CREATION_SUCCESS_MESSAGE
+  successMessage: CLASS_CREATION_SUCCESS_MESSAGE,
 };

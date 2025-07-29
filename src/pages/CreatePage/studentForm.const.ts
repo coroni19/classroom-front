@@ -1,9 +1,13 @@
+import {
+  INVALID_STRING_MESSAGE,
+  STUDENT_CREATION_SUCCESS_MESSAGE,
+} from "../../constants/messages.const";
+
+import { isDigit } from "./createPage.utils";
 import { isIdentityCard } from "class-validator";
 import type { IForm } from "../../interfaces/form.interface";
-import type { IStudentDto } from "../../interfaces/student.interface";
-import { isDigit } from "./createPage.utils";
 import { VALID_STRING_REGEX } from "../../constants/regex.constants";
-import { INVALID_STRING_MESSAGE, STUDENT_CREATION_SUCCESS_MESSAGE } from "../../constants/messages.const";
+import type { IStudentDto } from "../../interfaces/student.interface";
 
 export const studentForm: IForm<IStudentDto> = {
   title: "Add new student",
@@ -72,5 +76,5 @@ export const studentForm: IForm<IStudentDto> = {
     },
   ],
   buttonText: "ADD STUDENT",
-  successMessage: STUDENT_CREATION_SUCCESS_MESSAGE
+  successMessage: STUDENT_CREATION_SUCCESS_MESSAGE,
 };

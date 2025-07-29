@@ -1,3 +1,8 @@
+import {
+  FETCH_CLASSES_QUERY_KEY,
+  FETCH_STUDENTS_QUERY_KEY,
+} from "../../constants/keys.const";
+
 import { ToastContainer } from "react-toastify";
 import { useStyles } from "./StudentsPage.style";
 import Loader from "../../components/Loader/Loader";
@@ -12,7 +17,6 @@ import type { IStudent } from "../../interfaces/student.interface";
 import { classSelector } from "../../redux/selectors/class.selector";
 import StudentsTable from "../../components/StudentsTable/StudentsTable";
 import { studentSelector } from "../../redux/selectors/student.selector";
-import { FETCH_CLASSES_QUERY_KEY, FETCH_STUDENTS_QUERY_KEY } from "../../constants/keys.const";
 
 const StudentsPage = () => {
   const styles = useStyles();

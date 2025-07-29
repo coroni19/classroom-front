@@ -25,7 +25,10 @@ const ThemeContext = createContext<IThemeContext>({
 export const useThemeContext = () => useContext<IThemeContext>(ThemeContext);
 
 const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
-  const [theme, setTheme] = usePersistantState<TTheme>(LOCAL_STORAGE_THEME_KEY, themes.dark);
+  const [theme, setTheme] = usePersistantState<TTheme>(
+    LOCAL_STORAGE_THEME_KEY,
+    themes.dark
+  );
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === themes.dark ? themes.light : themes.dark));

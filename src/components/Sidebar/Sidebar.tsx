@@ -1,9 +1,9 @@
 import { useState } from "react";
+import { pages } from "./Sidebar.const";
 import { Link } from "react-router-dom";
 import { useStyles } from "./Sidebar.style";
 import { Drawer, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { pages } from "./Sidebar.const";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
@@ -30,7 +30,12 @@ const Sidebar = () => {
         onClose={toggleDrawerClose}
       >
         {pages.map((page) => (
-          <Link key={page.name} style={styles.pages} to={page.to} onClick={toggleDrawerClose}>
+          <Link
+            key={page.name}
+            style={styles.pages}
+            to={page.to}
+            onClick={toggleDrawerClose}
+          >
             {page.name}
           </Link>
         ))}

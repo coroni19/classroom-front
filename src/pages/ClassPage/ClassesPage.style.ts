@@ -12,7 +12,7 @@ export const useStyles = () => {
       maxWidth: "95%",
       flexWrap: "wrap",
       position: "absolute",
-      left: "6rem"
+      left: "6rem",
     },
     personIcon: {
       color: "white",

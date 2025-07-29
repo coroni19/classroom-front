@@ -1,5 +1,5 @@
-import { useThemeContext } from "../../contexts/Theme.context";
 import { createStyles } from "../../styles/createStyle";
+import { useThemeContext } from "../../contexts/Theme.context";
 
 export const useStyles = () => {
   const { theme } = useThemeContext();
@@ -24,7 +24,7 @@ export const useStyles = () => {
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
-      marginTop: "18rem"
+      marginTop: "18rem",
     },
   });
 };

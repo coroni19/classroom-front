@@ -1,7 +1,7 @@
+import type { FC } from "react";
 import { useStyles } from "./Redirect.style";
 import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
-import type { FC } from "react";
 
 interface IRedirectProps {
   message: string;

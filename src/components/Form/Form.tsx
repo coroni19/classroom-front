@@ -3,8 +3,8 @@ import { useStyles } from "./Form.style";
 import type { TAlert } from "../../types/alert.type";
 import { useForm, type FieldValues } from "react-hook-form";
 import type { IForm } from "../../interfaces/form.interface";
-import { isDisplayableError } from "../../utilities/errors/error.utility";
 import { Alert, Button, TextField, Typography } from "@mui/material";
+import { isDisplayableError } from "../../utilities/errors/error.utility";
 import { SOMETHING_WENT_WROG_MESSAGE } from "../../constants/messages.const";
 
 interface IFormProps<T extends FieldValues> {
