@@ -5,18 +5,18 @@ import { ToastContainer } from "react-toastify";
 import { useStyles } from "./ClassesPage.style";
 import PersonIcon from "@mui/icons-material/Person";
 import DeleteIcon from "@mui/icons-material/Delete";
+import Loader from "../../components/Loader/Loader";
 import classService from "../../services/class.service";
+import Redirect from "../../components/Redirect/Redirect";
 import studentService from "../../services/student.service";
+import { setClasses } from "../../redux/slices/class.slice";
 import ClassCard from "../../components/ClassCrad/ClassCard";
 import useFetchData from "../../hooks/use-fetch-dispatch.hook";
 import type { IClass } from "../../interfaces/class.interface";
 import ListDialog from "../../components/ListDialog/ListDialog";
-import { unAssignClass } from "../../redux/slices/student.slice";
 import { classSelector } from "../../redux/selectors/class.selector";
-import { setClasses, unAssignStudent } from "../../redux/slices/class.slice";
 import { NO_STUDENTS_IN_CLASS_MESSAGE } from "../../constants/messages.const";
-import Loader from "../../components/Loader/Loader";
-import Redirect from "../../components/Redirect/Redirect";
+import { handleUnAssignStudentFromClass } from "../../redux/actions/student.action";
 
 const ClassPage = () => {
   const styles = useStyles();
@@ -40,20 +40,13 @@ const ClassPage = () => {
     setSelectedClass(null);
   };
 
-  const handleAction = async (studentId: string) => {
+  const handleRemoveStudentFromClass = async (studentId: string) => {
     if (!selectedClass) {
       return;
     }
 
     await studentService.unassign(studentId);
-
-    dispatch(
-      unAssignStudent({
-        classId: selectedClass.classId,
-        studentId: studentId,
-      })
-    );
-    dispatch(unAssignClass({ studentId: studentId }));
+    handleUnAssignStudentFromClass(dispatch, selectedClass, studentId);
   };
 
   const filteredAndFormatedStudents = useMemo(() => {
@@ -102,8 +95,8 @@ const ClassPage = () => {
                     </Avatar>
                   }
                   listTitle="Class Students"
-                  handleAction={handleAction}
                   listItems={filteredAndFormatedStudents}
+                  handleAction={handleRemoveStudentFromClass}
                   emptyListTitle={NO_STUDENTS_IN_CLASS_MESSAGE}
                   actionIcon={<DeleteIcon sx={styles.icons}></DeleteIcon>}
                 />

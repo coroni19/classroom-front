@@ -10,6 +10,11 @@ import {
   TableContainer,
 } from "@mui/material";
 
+import {
+  NO_AVAILABLE_CLASSES_MESSAGE,
+  SOMETHING_WENT_WROG_MESSAGE,
+} from "../../constants/messages.const";
+
 import AddIcon from "@mui/icons-material/Add";
 import { useStyles } from "./StudentsTable.style";
 import ListDialog from "../ListDialog/ListDialog";
@@ -20,10 +25,9 @@ import studentService from "../../services/student.service";
 import { studentKeys, tableTitles } from "./StudentTable.const";
 import type { IStudent } from "../../interfaces/student.interface";
 import { classSelector } from "../../redux/selectors/class.selector";
-import { NO_AVAILABLE_CLASSES_MESSAGE, SOMETHING_WENT_WROG_MESSAGE } from "../../constants/messages.const";
-import { assignClass, deleteStudent } from "../../redux/slices/student.slice";
-import { assignStudent, unAssignStudent } from "../../redux/slices/class.slice";
 import { toastify } from "../../utilities/toastify/toastify.utility";
+import { handleDeleteStudent } from "../../redux/actions/class.action";
+import { handleAssignStudentToClass } from "../../redux/actions/student.action";
 
 interface IStudentsTableProps {
   students: IStudent[];
@@ -45,44 +49,20 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
     setSelectedStudent(null);
   };
 
-  const handleAction = async (classId: string) => {
-    if (!selectedStudent) {      
+  const handleAssignStudent = async (classId: string) => {
+    if (!selectedStudent) {
       return;
     }
 
-    await studentService.assign(selectedStudent.studentId, Number(classId)),
-      dispatch(
-        unAssignStudent({
-          classId: Number(selectedStudent.classId),
-          studentId: selectedStudent.studentId,
-        })
-      );
-    dispatch(
-      assignStudent({
-        classId: Number(classId),
-        student: selectedStudent,
-      })
-    );
-    dispatch(
-      assignClass({
-        classId: Number(classId),
-        studentId: selectedStudent.studentId,
-      })
-    );
-
+    await studentService.assign(selectedStudent.studentId, Number(classId));
+    handleAssignStudentToClass(dispatch, selectedStudent, Number(classId));
     handleClose();
   };
 
   const handleDelete = async (student: IStudent) => {
     try {
       await studentService.deleteStudent(student.studentId);
-      dispatch(deleteStudent(student.studentId));
-      dispatch(
-        unAssignStudent({
-          classId: Number(student.classId),
-          studentId: student.studentId,
-        })
-      );
+      handleDeleteStudent(dispatch, student);
     } catch (error) {
       toastify("error", SOMETHING_WENT_WROG_MESSAGE);
     }
@@ -149,7 +129,6 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
       {selectedStudent && (
         <ListDialog
           onClose={handleClose}
-          handleAction={handleAction}
           listTitle="Available Classes"
           open={Boolean(selectedStudent)}
           avatartIcon={
@@ -157,6 +136,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
               <SchoolIcon />
             </Avatar>
           }
+          handleAction={handleAssignStudent}
           listItems={filteredAndFormatedClasses}
           emptyListTitle={NO_AVAILABLE_CLASSES_MESSAGE}
           actionIcon={<AddIcon sx={styles.addIcon}></AddIcon>}

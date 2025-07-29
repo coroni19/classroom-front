@@ -14,7 +14,7 @@ export const classSlice = createSlice({
     addClass: (state, action: PayloadAction<IClass>) => {
       return [...state, action.payload];
     },
-    unAssignStudent: (
+    unAssignStudentFromClass: (
       state,
       action: PayloadAction<{ classId: number; studentId: string }>
     ) => {
@@ -30,7 +30,7 @@ export const classSlice = createSlice({
         return cls;
       });
     },
-    assignStudent: (
+    assignStudentToClass: (
       state,
       action: PayloadAction<{ student: IStudent; classId: number }>
     ) => {
@@ -54,8 +54,8 @@ export const {
   addClass,
   setClasses,
   deleteClass,
-  assignStudent,
-  unAssignStudent,
+  assignStudentToClass,
+  unAssignStudentFromClass,
 } = classSlice.actions;
 
 export const classesReducer = classSlice.reducer;
