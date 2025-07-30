@@ -12,8 +12,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
   typography: {
-    fontFamily: `Heebo`,
     fontSize: 18,
+    fontFamily: `Heebo`,
   },
 });
 
