@@ -25,8 +25,8 @@ export const useStyles = () => {
     },
     button: {
       color: "white",
-      width: "16rem",
       margin: "15px",
+      width: "16rem",
       ...themes.transition,
       backgroundColor: theme.color,
     },
