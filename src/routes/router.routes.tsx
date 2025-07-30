@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 export const MainRouter = () => {
   return (
     <Routes>
-      <Route path="/*" element={<RootLayout />}>
+      <Route path="roni/*" element={<RootLayout />}>
         {routes.map((route) => (
           <Route
             key={route.path}
