@@ -26,3 +26,5 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ secrets.DOCKER_USERNAME }}/front:latest
+          build-arg: |
+            VITE_BASE_URL=${{ vars.VITE_BASE_URL }}
