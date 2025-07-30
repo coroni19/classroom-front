@@ -22,7 +22,7 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <DarkThemeProvider>
-      <HashRouter basename="roni">
+      <HashRouter>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
