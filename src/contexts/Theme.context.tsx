@@ -1,17 +1,10 @@
 import { themes } from "../../themes";
-import { createContext, useContext, useEffect } from "react";
 import { type FC, type ReactNode } from "react";
+import type { TTheme } from "../types/theme.type";
+import { createContext, useContext, useEffect } from "react";
 import { LOCAL_STORAGE_THEME_KEY } from "../constants/keys.const";
+import type { IThemeContext } from "../interfaces/theme.interface";
 import usePersistantState from "../hooks/use-persistant-state.hook";
-
-type TTheme = {
-  color: string;
-};
-
-interface IThemeContext {
-  theme: { color: string };
-  toggleTheme: () => void;
-}
 
 interface IProviderProps {
   children: ReactNode;
