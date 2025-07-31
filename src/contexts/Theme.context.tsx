@@ -1,6 +1,6 @@
 import { themes } from "../../themes";
-import { createContext, useContext } from "react";
-import { useEffect, type FC, type ReactNode } from "react";
+import { createContext, useContext, useEffect } from "react";
+import { type FC, type ReactNode } from "react";
 import { LOCAL_STORAGE_THEME_KEY } from "../constants/keys.const";
 import usePersistantState from "../hooks/use-persistant-state.hook";
 
@@ -38,9 +38,6 @@ const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === themes.dark ? themes.light : themes.dark));
-        document
-      .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme.color);
   };
 
   return (

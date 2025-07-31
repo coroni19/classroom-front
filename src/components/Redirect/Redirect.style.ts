@@ -5,11 +5,8 @@ export const useStyles = () => {
   const { theme } = useThemeContext();
 
   return createStyles({
-    studentsTableContainer: {
-      width: "70vw",
-      maxWidth: "90vw",
-    },
     noStudentsText: {
+      maxWidth: "95%",
       fontSize: "3rem",
       fontFamily: "roboto !importent",
     },
@@ -22,9 +19,9 @@ export const useStyles = () => {
     messageContainer: {
       gap: "2rem",
       display: "flex",
+      marginTop: "50%",
       alignItems: "center",
       flexDirection: "column",
-      marginTop: "18rem",
     },
   });
 };
