@@ -6,8 +6,8 @@ import { Box, Button, Typography } from "@mui/material";
 import type { FallbackProps } from "react-error-boundary";
 
 const ErrorFallback: React.FC<FallbackProps> = () => {
-  const navigate = useNavigate();
   const styles = useStyles();
+  const navigate = useNavigate();
 
   const onReset = () => {
     navigate(0);
@@ -34,7 +34,7 @@ const ErrorFallback: React.FC<FallbackProps> = () => {
   }, []);
 
   return (
-    <Box sx={styles.container}>
+    <div style={styles.container}>
       <Box sx={styles.eyesContainer}>
         <Box sx={styles.errorNum}>5</Box>
         <Box sx={styles.eye} ref={eyeRefs[0]}></Box>
@@ -47,7 +47,7 @@ const ErrorFallback: React.FC<FallbackProps> = () => {
         Retry
         <MousePointerClick style={styles.icon} />
       </Button>
-    </Box>
+    </div>
   );
 };
 

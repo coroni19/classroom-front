@@ -9,19 +9,17 @@ const Navbar = () => {
   const { toggleTheme } = useThemeContext();
 
   return (
-    <>
-      <AppBar position="static" sx={styles.navbar}>
-        <Toolbar>
-          <Sidebar />
-          <Typography variant="h6" component="div" sx={styles.appName}>
-            Shob Classes
-          </Typography>
-          <Button onClick={toggleTheme}>
-            <LoyaltyIcon sx={styles.darkModeIcon} />
-          </Button>
-        </Toolbar>
-      </AppBar>
-    </>
+    <AppBar position="static" sx={styles.navbar}>
+      <Toolbar>
+        <Sidebar />
+        <Typography variant="h6" component="div" sx={styles.appName}>
+          Shob Classes
+        </Typography>
+        <Button onClick={toggleTheme}>
+          <LoyaltyIcon sx={styles.darkModeIcon} />
+        </Button>
+      </Toolbar>
+    </AppBar>
   );
 };
 
