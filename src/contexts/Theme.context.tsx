@@ -34,7 +34,7 @@ const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
     document
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", theme.color);
-  }, [theme.color]);
+  }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === themes.dark ? themes.light : themes.dark));
