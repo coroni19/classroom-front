@@ -1,8 +1,8 @@
 import { themes } from "../../themes";
-import { type FC, type ReactNode } from "react";
+import { createContext, useContext } from "react";
+import { useEffect, type FC, type ReactNode } from "react";
 import { LOCAL_STORAGE_THEME_KEY } from "../constants/keys.const";
 import usePersistantState from "../hooks/use-persistant-state.hook";
-import { createContext, useContext } from "react";
 
 type TTheme = {
   color: string;
@@ -30,17 +30,17 @@ const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
     themes.dark
   );
 
-  // useInsertionEffect(() => {
-  //   document
-  //     .querySelector('meta[name="theme-color"]')
-  //     ?.setAttribute("content", theme.color);
-  // }, [theme.color]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === themes.dark ? themes.light : themes.dark));
+  useEffect(() => {
     document
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", theme.color);
+  }, [theme.color]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === themes.dark ? themes.light : themes.dark));
+    // document
+    //   .querySelector('meta[name="theme-color"]')
+    //   ?.setAttribute("content", theme.color);
   };
 
   return (

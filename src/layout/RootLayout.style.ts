@@ -6,5 +6,6 @@ export const useStyles = () =>
       display: "flex",
       marginTop: "160px",
       justifyContent: "center",
+      overflowX: "hidden"
     },
   });
