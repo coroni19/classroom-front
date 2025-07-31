@@ -1,5 +1,5 @@
 import { themes } from "../../themes";
-import { useRef, type FC, type ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 import { LOCAL_STORAGE_THEME_KEY } from "../constants/keys.const";
 import usePersistantState from "../hooks/use-persistant-state.hook";
 import { createContext, useContext, useInsertionEffect } from "react";
