@@ -14,10 +14,10 @@ const useFetchData = <T>(options: {
   const reduxData = useAppSelector(options.selector);
 
   const { data, isSuccess, isLoading } = useQuery({
-    queryKey: [options.queryKey],
-    queryFn: options.serviceAction,
     useErrorBoundary: true,
     refetchOnWindowFocus: false,
+    queryKey: [options.queryKey],
+    queryFn: options.serviceAction,
     enabled: !options.isLoaded(reduxData),
   });
 
