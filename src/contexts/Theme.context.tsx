@@ -25,7 +25,7 @@ const ThemeContext = createContext<IThemeContext>({
 export const useThemeContext = () => useContext<IThemeContext>(ThemeContext);
 
 const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
-  const meta = useRef<HTMLMetaElement | null>(null);
+  // const meta = useRef<HTMLMetaElement | null>(null);
 
   const [theme, setTheme] = usePersistantState<TTheme>(
     LOCAL_STORAGE_THEME_KEY,
@@ -33,14 +33,17 @@ const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
   );
 
   useInsertionEffect(() => {
-    if (!meta.current) {
-      meta.current = document.createElement("meta");
-    }
+    // if (!meta.current) {
+    //   meta.current = document.createElement("meta");
+    // }
 
-    meta.current.name = "theme-color";
-    meta.current.content = theme.color;
+    // meta.current.name = "theme-color";
+    // meta.current.content = theme.color;
+    // meta.current.id = "theme"
 
-    document.head.append(meta.current);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme.color)
+    // document.head.remove
+    // document.head.append(meta.current);
   }, [theme.color]);
 
   const toggleTheme = () => {
