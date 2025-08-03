@@ -1,14 +1,13 @@
+import { toast } from "react-toastify";
 import { useStyles } from "./toastify.style";
-import { toast, type TypeOptions } from "react-toastify";
-import { ERROR_TOAST_OPTION, TOASTIFY_CONFIGURATION } from "./tosatify.const";
+import type { TToastStyle } from "./toastify.type";
+import { TOASTIFY_CONFIGURATION } from "./tosatify.const";
 
-export const toastify = (type: TypeOptions, message: string) => {
+export const toastify = (type: TToastStyle, message: string) => {
   const styles = useStyles();
 
-  if (type === ERROR_TOAST_OPTION) {
-    return toast.error(message, {
-      ...TOASTIFY_CONFIGURATION,
-      style: styles.errorToastify,
-    });
-  }
+  return toast[type](message, {
+    ...TOASTIFY_CONFIGURATION,
+    style: styles[type],
+  });
 };

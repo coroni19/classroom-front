@@ -18,7 +18,7 @@ export const studentSlice = createSlice({
     },
     unAssignStudent: (state, action: PayloadAction<{ studentId: string }>) => {
       return [...state].map((student) => {
-        if (student.studentId == action.payload.studentId) {
+        if (student.studentId === action.payload.studentId) {
           return { ...student, classId: null };
         }
         return student;
@@ -29,7 +29,7 @@ export const studentSlice = createSlice({
       action: PayloadAction<{ studentId: string; classId: number }>
     ) => {
       return [...state].map((student) => {
-        if (student.studentId == action.payload.studentId) {
+        if (student.studentId === action.payload.studentId) {
           return { ...student, classId: action.payload.classId };
         }
         return student;

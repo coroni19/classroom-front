@@ -8,8 +8,11 @@ import {
   ListItemButton,
 } from "@mui/material";
 
-import type { FC, JSX } from "react";
+import { type FC, type JSX } from "react";
 import { useStyles } from "./ListDialog.style";
+import { toastify } from "../../utilities/toastify/toastify.utility";
+import { SOMETHING_WENT_WROG_MESSAGE } from "../../constants/messages.const";
+import { ERROR_TOAST_OPTION } from "../../utilities/toastify/tosatify.const";
 
 export interface IDialogProps {
   open: boolean;
@@ -34,6 +37,14 @@ const ListDialog: FC<IDialogProps> = ({
 }) => {
   const styles = useStyles();
 
+  const handleActionButton = async (key: string) => {
+    try {
+      await handleAction(key);
+    } catch (error) {
+      toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE);
+    }
+  };
+
   return (
     <Dialog onClose={onClose} open={open}>
       {listItems.length ? (
@@ -41,16 +52,16 @@ const ListDialog: FC<IDialogProps> = ({
           <DialogTitle sx={styles.dialogTitle}>{listTitle}</DialogTitle>
           <List sx={styles.list}>
             {listItems.map((item) => (
-              <ListItem disablePadding key={item.key} sx={styles.studentInfo}>
+              <ListItem disablePadding key={item.key} sx={styles.itemInfo}>
                 <ListItemAvatar sx={styles.avatar}>
                   {avatartIcon}
                 </ListItemAvatar>
                 <ListItemText
                   primary={item.title}
-                  sx={styles.studentName}
-                  slotProps={{ primary: styles.studentName }}
+                  sx={styles.itemName}
+                  slotProps={{ primary: styles.itemName }}
                 />
-                <ListItemButton onClick={() => handleAction(item.key)}>
+                <ListItemButton onClick={() => handleActionButton(item.key)}>
                   {actionIcon}
                 </ListItemButton>
               </ListItem>

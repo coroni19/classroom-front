@@ -50,7 +50,7 @@ const ClassPage = () => {
     handleUnAssignStudentFromClass(dispatch, selectedClass, studentId);
   };
 
-  const filteredAndFormatedStudents = useMemo(() => {
+  const formatedStudents = useMemo(() => {
     if (!selectedClass) {
       return [];
     }
@@ -71,50 +71,48 @@ const ClassPage = () => {
     });
   }, [classes, selectedClass]);
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (classes.length === 0) {
+    return (
+      <Redirect
+        message="There are no classes yet"
+        buttonText="create a new class"
+        navigationPath="/create"
+      />
+    );
+  }
+
   return (
     <>
-      {!isLoading ? (
-        <>
-          {classes.length !== 0 ? (
-            <>
-              <div style={styles.classCardContainer}>
-                {classes.map((classData) => (
-                  <ClassCard
-                    cls={classData}
-                    key={classData.classId}
-                    handleOpen={handleOpen}
-                  />
-                ))}
-              </div>
-              {selectedClass && (
-                <ListDialog
-                  onClose={handleClose}
-                  open={Boolean(selectedClass)}
-                  avatartIcon={
-                    <Avatar sx={styles.personIcon}>
-                      <PersonIcon />
-                    </Avatar>
-                  }
-                  listTitle="Class Students"
-                  listItems={filteredAndFormatedStudents}
-                  handleAction={handleRemoveStudentFromClass}
-                  emptyListTitle={NO_STUDENTS_IN_CLASS_MESSAGE}
-                  actionIcon={<DeleteIcon sx={styles.icons}></DeleteIcon>}
-                />
-              )}
-              <ToastContainer />
-            </>
-          ) : (
-            <Redirect
-              message="There are no classes yet"
-              buttonText="create a new class"
-              navigationPath="/create"
-            />
-          )}
-        </>
-      ) : (
-        <Loader />
+      <div style={styles.classCardContainer}>
+        {classes.map((classData) => (
+          <ClassCard
+            cls={classData}
+            key={classData.classId}
+            handleOpen={handleOpen}
+          />
+        ))}
+      </div>
+      {selectedClass && (
+        <ListDialog
+          onClose={handleClose}
+          open={Boolean(selectedClass)}
+          avatartIcon={
+            <Avatar sx={styles.personIcon}>
+              <PersonIcon />
+            </Avatar>
+          }
+          listTitle="Class Students"
+          listItems={formatedStudents}
+          handleAction={handleRemoveStudentFromClass}
+          emptyListTitle={NO_STUDENTS_IN_CLASS_MESSAGE}
+          actionIcon={<DeleteIcon sx={styles.icons}></DeleteIcon>}
+        />
       )}
+      <ToastContainer />
     </>
   );
 };

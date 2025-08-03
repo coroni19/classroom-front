@@ -3,23 +3,25 @@ import {
   unAssignStudentFromClass,
 } from "../slices/class.slice";
 
-import type { Dispatch } from "react";
-import type { UnknownAction } from "@reduxjs/toolkit";
+import type { AppDispatch } from "../store";
 import type { IClass } from "../../interfaces/class.interface";
 import type { IStudent } from "../../interfaces/student.interface";
 import { assignClassToStudent, unAssignStudent } from "../slices/student.slice";
 
 export const handleAssignStudentToClass = (
-  dispatch: Dispatch<UnknownAction>,
+  dispatch: AppDispatch,
   selectedStudent: IStudent,
   classId: number
 ) => {
-  dispatch(
-    unAssignStudentFromClass({
-      classId: Number(selectedStudent.classId),
-      studentId: selectedStudent.studentId,
-    })
-  );
+  if (selectedStudent.classId) {
+    dispatch(
+      unAssignStudentFromClass({
+        classId: Number(selectedStudent.classId),
+        studentId: selectedStudent.studentId,
+      })
+    );
+  }
+
   dispatch(
     assignStudentToClass({
       classId: Number(classId),
@@ -35,7 +37,7 @@ export const handleAssignStudentToClass = (
 };
 
 export const handleUnAssignStudentFromClass = async (
-  dispatch: Dispatch<UnknownAction>,
+  dispatch: AppDispatch,
   selectedClass: IClass,
   studentId: string
 ) => {

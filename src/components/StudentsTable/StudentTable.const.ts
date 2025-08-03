@@ -1,7 +1,7 @@
 import type { Path } from "react-hook-form";
 import type { IStudent } from "../../interfaces/student.interface";
 
-export const tableTitles = [
+export const TABLE_TITLES = [
   "ID",
   "First name",
   "Last name",
@@ -11,7 +11,7 @@ export const tableTitles = [
   "Delete",
 ];
 
-export const studentKeys: Path<IStudent>[] = [
+export const STUDENT_INFO_COLUMNS: Path<IStudent>[] = [
   "studentId",
   "firstName",
   "lastName",

@@ -6,7 +6,7 @@ export const DEFAULT_TOAST_OPTION = "default";
 
 import type { ToastOptions } from "react-toastify";
 
-export const TOASTIFY_CONFIGURATION: ToastOptions<unknown> = {
+export const TOASTIFY_CONFIGURATION: ToastOptions = {
   autoClose: 4000,
   closeButton: false,
   hideProgressBar: true,

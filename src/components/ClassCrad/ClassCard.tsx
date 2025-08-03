@@ -3,7 +3,7 @@ import {
   SOMETHING_WENT_WROG_MESSAGE,
 } from "../../constants/messages.const";
 
-import { type FC } from "react";
+import { useState, type FC } from "react";
 import { useStyles } from "./ClassCard.style";
 import { useAppDispatch } from "../../redux/store";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -13,6 +13,7 @@ import type { IClass } from "../../interfaces/class.interface";
 import type { IStudent } from "../../interfaces/student.interface";
 import { Button, Card, IconButton, Typography } from "@mui/material";
 import { toastify } from "../../utilities/toastify/toastify.utility";
+import { ERROR_TOAST_OPTION } from "../../utilities/toastify/tosatify.const";
 
 interface IClassProps {
   cls: IClass;
@@ -23,18 +24,25 @@ const ClassCard: FC<IClassProps> = ({ cls, handleOpen }) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
+  const [loading, setLoading] = useState(false);
+
   const seatsLeft = cls.maxSeats - cls.students.length;
 
   const handleDelete = async (students: IStudent[]) => {
     if (students.length !== 0) {
-      toastify("error", DELETE_CLASS_ERROR_MESSAGE);
+      toastify(ERROR_TOAST_OPTION, DELETE_CLASS_ERROR_MESSAGE);
       return;
     }
+
     try {
+      setLoading(true);
+
       await classService.deleteClass(cls.classId);
       dispatch(deleteClass({ classId: cls.classId }));
     } catch (error) {
-      toastify("error", SOMETHING_WENT_WROG_MESSAGE);
+      toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,8 +63,11 @@ const ClassCard: FC<IClassProps> = ({ cls, handleOpen }) => {
         <Button sx={styles.studentsList} onClick={() => handleOpen(cls)}>
           students list
         </Button>
-        <IconButton onClick={() => handleDelete(cls.students)}>
-          <DeleteIcon sx={styles.icons} />
+        <IconButton
+          onClick={() => handleDelete(cls.students)}
+          loading={loading}
+        >
+          {!loading && <DeleteIcon sx={styles.icons} />}
         </IconButton>
         <div></div>
       </div>

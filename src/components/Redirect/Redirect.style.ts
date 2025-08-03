@@ -6,7 +6,7 @@ export const useStyles = () => {
 
   return createStyles({
     noStudentsText: {
-      maxWidth: "95%",
+      maxWidth: "95vw",
       fontSize: "3rem",
       fontFamily: "roboto !importent",
     },
@@ -19,7 +19,7 @@ export const useStyles = () => {
     messageContainer: {
       gap: "2rem",
       display: "flex",
-      marginTop: "50%",
+      marginTop: "15%",
       alignItems: "center",
       flexDirection: "column",
     },

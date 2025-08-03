@@ -16,6 +16,11 @@ const Form = <T extends FieldValues>({
   form,
   handleSubmitButton,
 }: IFormProps<T>) => {
+  const [alertInfo, setAlertInfo] = useState<{
+    message: string;
+    alertColor: TAlert;
+  } | null>(null);
+
   const {
     reset,
     register,
@@ -25,14 +30,10 @@ const Form = <T extends FieldValues>({
 
   const styles = useStyles();
 
-  const [alertInfo, setAlertInfo] = useState<{
-    alertColor: TAlert;
-    message: any;
-  } | null>(null);
-
   const submit = async (data: T) => {
     try {
       await handleSubmitButton(data);
+
       reset();
       setAlertInfo({
         alertColor: "success",
@@ -45,6 +46,7 @@ const Form = <T extends FieldValues>({
           message: error.response.data.message,
         });
       }
+
       setAlertInfo({
         alertColor: "error",
         message: SOMETHING_WENT_WROG_MESSAGE,
@@ -55,9 +57,7 @@ const Form = <T extends FieldValues>({
   return (
     <form
       style={styles.formContainer}
-      onSubmit={handleSubmit(async (data) => {
-        submit(data);
-      })}
+      onSubmit={handleSubmit(submit)}
     >
       <Typography sx={styles.formTitle}>{form.title}</Typography>
       {form.fields.map((field, index) => (
@@ -71,7 +71,7 @@ const Form = <T extends FieldValues>({
             register(field.key).onChange(e);
           }}
           error={Boolean(errors[String(field.key)])}
-          label={field.label + (field.required ? " *" : "")}
+          label={field.label + (field.required ? " *" : "")} //change this
           sx={{ ...styles.field, ...styles.noArrowsOnNumberFeild }}
           helperText={String(errors[String(field.key)]?.message ?? " ")}
         />

@@ -21,12 +21,13 @@ import ListDialog from "../ListDialog/ListDialog";
 import { useMemo, useState, type FC } from "react";
 import SchoolIcon from "@mui/icons-material/School";
 import studentService from "../../services/student.service";
-import { studentKeys, tableTitles } from "./StudentTable.const";
 import type { IStudent } from "../../interfaces/student.interface";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { classSelector } from "../../redux/selectors/class.selector";
 import { toastify } from "../../utilities/toastify/toastify.utility";
 import { handleDeleteStudent } from "../../redux/actions/class.action";
+import { STUDENT_INFO_COLUMNS, TABLE_TITLES } from "./StudentTable.const";
+import { ERROR_TOAST_OPTION } from "../../utilities/toastify/tosatify.const";
 import { handleAssignStudentToClass } from "../../redux/actions/student.action";
 
 interface IStudentsTableProps {
@@ -64,7 +65,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
       await studentService.deleteStudent(student.studentId);
       handleDeleteStudent(dispatch, student);
     } catch (error) {
-      toastify("error", SOMETHING_WENT_WROG_MESSAGE);
+      toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE);
     }
   };
 
@@ -75,13 +76,14 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
 
     const filteredClasses = classes.filter(
       (cls) =>
-        cls.students.length < cls.maxSeats &&
-        cls.classId !== selectedStudent.classId
+        cls.classId !== selectedStudent.classId &&
+        cls.students.length < cls.maxSeats
     );
 
-    return filteredClasses.map(({ classId, className }) => {
-      return { key: String(classId), title: className };
-    });
+    return filteredClasses.map(({ classId, className }) => ({
+      key: String(classId),
+      title: className,
+    }));
   }, [classes, selectedStudent]);
 
   return (
@@ -90,7 +92,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              {tableTitles.map((title) => (
+              {TABLE_TITLES.map((title) => (
                 <TableCell key={title} align="center">
                   {title}
                 </TableCell>
@@ -100,7 +102,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
           <TableBody>
             {students.map((student) => (
               <TableRow key={student.studentId}>
-                {studentKeys.map((key) => (
+                {STUDENT_INFO_COLUMNS.map((key) => (
                   <TableCell key={key} align="center">
                     {student[key]}
                   </TableCell>

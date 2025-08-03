@@ -37,25 +37,23 @@ const StudentsPage = () => {
     dispatchAction: (data: IClass[]) => setClasses(data),
   });
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (students.length === 0) {
+    <Redirect
+      message="There are no students yet"
+      buttonText="create a new student"
+      navigationPath="/create"
+    />;
+  }
+
   return (
     <>
-      {!isLoading ? (
-        <>
-          {students.length !== 0 ? (
-            <div style={styles.studentsTableContainer}>
-              <StudentsTable students={students} />
-            </div>
-          ) : (
-            <Redirect
-              message="There are no students yet"
-              buttonText="create a new student"
-              navigationPath="/create"
-            />
-          )}
-        </>
-      ) : (
-        <Loader />
-      )}
+      <div style={styles.studentsTableContainer}>
+        <StudentsTable students={students} />
+      </div>
       <ToastContainer />
     </>
   );

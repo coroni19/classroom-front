@@ -19,19 +19,19 @@ const CreatePage = () => {
   const classes = useAppSelector(classSelector);
   const students = useAppSelector(studentSelector);
 
-  const handleSubmitClass = async (feildData: IClassDto) => {
-    await classService.createClass(feildData);
+  const handleSubmitClass = async (data: IClassDto) => {
+    await classService.createClass(data);
 
     if (classes.length !== 0) {
-      dispatch(addClass({ ...feildData, students: [] }));
+      dispatch(addClass({ ...data, students: [] }));
     }
   };
 
-  const handleSubmitStudent = async (feildData: IStudentDto) => {
-    await studentService.createStudent(feildData);
+  const handleSubmitStudent = async (data: IStudentDto) => {
+    await studentService.createStudent(data);
 
     if (students.length !== 0) {
-      dispatch(addStudent({ ...feildData, classId: null }));
+      dispatch(addStudent({ ...data, classId: null }));
     }
   };
 
