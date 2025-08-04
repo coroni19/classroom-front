@@ -24,11 +24,7 @@ const Sidebar = () => {
       <Button onClick={toggleDrawerOpen}>
         <MenuIcon sx={styles.menuIcon} />
       </Button>
-      <Drawer
-        open={open}
-        anchor="left"
-        onClose={toggleDrawerClose}
-      >
+      <Drawer open={open} anchor="left" onClose={toggleDrawerClose}>
         {pages.map((page) => (
           <Link
             to={page.to}

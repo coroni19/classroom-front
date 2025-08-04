@@ -1,7 +1,7 @@
+import type { AppDispatch } from "../store";
 import { deleteStudent } from "../slices/student.slice";
 import { unAssignStudentFromClass } from "../slices/class.slice";
 import type { IStudent } from "../../interfaces/student.interface";
-import type { AppDispatch } from "../store";
 
 export const handleDeleteStudent = (
   dispatch: AppDispatch,

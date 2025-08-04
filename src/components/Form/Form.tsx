@@ -55,10 +55,7 @@ const Form = <T extends FieldValues>({
   };
 
   return (
-    <form
-      style={styles.formContainer}
-      onSubmit={handleSubmit(submit)}
-    >
+    <form style={styles.formContainer} onSubmit={handleSubmit(submit)}>
       <Typography sx={styles.formTitle}>{form.title}</Typography>
       {form.fields.map((field, index) => (
         <TextField

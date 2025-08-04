@@ -60,7 +60,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
       handleAssignStudentToClass(dispatch, selectedStudent, Number(classId));
       handleClose();
     } catch (error) {
-      toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE)
+      toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE);
     }
   };
 
