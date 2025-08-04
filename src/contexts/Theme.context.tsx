@@ -17,7 +17,7 @@ const ThemeContext = createContext<IThemeContext>({
 
 export const useThemeContext = () => useContext<IThemeContext>(ThemeContext);
 
-const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
+const PaletteProvider: FC<IProviderProps> = ({ children }) => {
   const [theme, setTheme] = usePersistantState<TTheme>(
     LOCAL_STORAGE_THEME_KEY,
     themes.dark
@@ -40,4 +40,4 @@ const DarkThemeProvider: FC<IProviderProps> = ({ children }) => {
   );
 };
 
-export default DarkThemeProvider;
+export default PaletteProvider;

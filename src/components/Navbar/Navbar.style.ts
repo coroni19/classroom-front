@@ -13,6 +13,7 @@ export const useStyles = () => {
     },
     appName: {
       fontSize: "32px",
+      fontWeight: "500",
       fontFamily: "Roboto !importent",
     },
     navbar: {

@@ -19,7 +19,7 @@ export const useStyles = () => {
     messageContainer: {
       gap: "2rem",
       display: "flex",
-      marginTop: "15%",
+      marginTop: "25vh",
       alignItems: "center",
       flexDirection: "column",
     },

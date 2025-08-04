@@ -12,7 +12,7 @@ const Navbar = () => {
     <AppBar position="static" sx={styles.navbar}>
       <Toolbar>
         <Sidebar />
-        <Typography variant="h6" component="div" sx={styles.appName}>
+        <Typography sx={styles.appName}>
           Shob Classes
         </Typography>
         <Button onClick={toggleTheme}>

@@ -3,13 +3,15 @@ import { useQuery } from "react-query";
 import type { UnknownAction } from "@reduxjs/toolkit";
 import { useAppDispatch, useAppSelector, type RootState } from "../redux/store";
 
-const useFetchData = <T>(options: {
+interface IOptions<T> {
   queryKey: string;
   serviceAction: () => void;
   isLoaded: (data: T) => boolean;
   selector: (state: RootState) => T;
   dispatchAction: (data: T) => UnknownAction;
-}) => {
+}
+
+const useFetchData = <T>(options: IOptions<T>) => {
   const dispatch = useAppDispatch();
   const reduxData = useAppSelector(options.selector);
 

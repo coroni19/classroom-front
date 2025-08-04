@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { pages } from "./Sidebar.const";
-import { Link } from "react-router-dom";
 import { useStyles } from "./Sidebar.style";
 import { Drawer, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
-
   const styles = useStyles();
+  const location = useLocation();
+
+  const [open, setOpen] = useState(false);
 
   const toggleDrawerOpen = () => {
     setOpen(true);
@@ -20,21 +21,24 @@ const Sidebar = () => {
 
   return (
     <>
-      <Button className="sidebar-btn" onClick={toggleDrawerOpen}>
-        <MenuIcon sx={{ color: "white" }} />
+      <Button onClick={toggleDrawerOpen}>
+        <MenuIcon sx={styles.menuIcon} />
       </Button>
       <Drawer
         open={open}
         anchor="left"
-        className="sidebar"
         onClose={toggleDrawerClose}
       >
         {pages.map((page) => (
           <Link
-            key={page.name}
-            style={styles.pages}
             to={page.to}
+            key={page.name}
             onClick={toggleDrawerClose}
+            style={
+              location.pathname.slice(1) === page.name
+                ? { ...styles.pages, ...styles.selectedPage }
+                : styles.pages
+            }
           >
             {page.name}
           </Link>

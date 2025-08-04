@@ -1,3 +1,8 @@
+import {
+  SOMETHING_WENT_WROG_MESSAGE,
+  NO_STUDENTS_IN_CLASS_MESSAGE,
+} from "../../constants/messages.const";
+
 import { Avatar } from "@mui/material";
 import { useMemo, useState } from "react";
 import { ToastContainer } from "react-toastify";
@@ -16,7 +21,8 @@ import type { IClass } from "../../interfaces/class.interface";
 import ListDialog from "../../components/ListDialog/ListDialog";
 import { classSelector } from "../../redux/selectors/class.selector";
 import { FETCH_CLASSES_QUERY_KEY } from "../../constants/keys.const";
-import { NO_STUDENTS_IN_CLASS_MESSAGE } from "../../constants/messages.const";
+import { toastify } from "../../utilities/toastify/toastify.utility";
+import { ERROR_TOAST_OPTION } from "../../utilities/toastify/tosatify.const";
 import { handleUnAssignStudentFromClass } from "../../redux/actions/student.action";
 
 const ClassPage = () => {
@@ -46,11 +52,15 @@ const ClassPage = () => {
       return;
     }
 
-    await studentService.unassign(studentId);
-    handleUnAssignStudentFromClass(dispatch, selectedClass, studentId);
+    try {
+      await studentService.unassign(studentId);
+      handleUnAssignStudentFromClass(dispatch, selectedClass, studentId);
+    } catch (error) {
+      toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE);
+    }
   };
 
-  const formatedStudents = useMemo(() => {
+  const formattedStudents = useMemo(() => {
     if (!selectedClass) {
       return [];
     }
@@ -106,7 +116,7 @@ const ClassPage = () => {
             </Avatar>
           }
           listTitle="Class Students"
-          listItems={formatedStudents}
+          listItems={formattedStudents}
           handleAction={handleRemoveStudentFromClass}
           emptyListTitle={NO_STUDENTS_IN_CLASS_MESSAGE}
           actionIcon={<DeleteIcon sx={styles.icons}></DeleteIcon>}

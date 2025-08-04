@@ -55,9 +55,13 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
       return;
     }
 
-    await studentService.assign(selectedStudent.studentId, Number(classId));
-    handleAssignStudentToClass(dispatch, selectedStudent, Number(classId));
-    handleClose();
+    try {
+      await studentService.assign(selectedStudent.studentId, Number(classId));
+      handleAssignStudentToClass(dispatch, selectedStudent, Number(classId));
+      handleClose();
+    } catch (error) {
+      toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE)
+    }
   };
 
   const handleDelete = async (student: IStudent) => {

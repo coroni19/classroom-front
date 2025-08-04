@@ -5,7 +5,7 @@ import { store } from "./redux/store.ts";
 import { HashRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { ErrorBoundary } from "react-error-boundary";
-import DarkThemeProvider from "./contexts/Theme.context.tsx";
+import PaletteProvider from "./contexts/Theme.context.tsx";
 import ErrorFallback from "./components/Fallback/Fallback.tsx";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -21,7 +21,7 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <DarkThemeProvider>
+    <PaletteProvider>
       <HashRouter>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Provider store={store}>
@@ -33,6 +33,6 @@ createRoot(document.getElementById("root")!).render(
           </Provider>
         </ErrorBoundary>
       </HashRouter>
-    </DarkThemeProvider>
+    </PaletteProvider>
   </StrictMode>
 );

@@ -21,10 +21,6 @@ export const useStyles = () => {
       color: "#8F8F8F",
       fontSize: "14px",
     },
-    personIcon: {
-      color: "white",
-      bgcolor: "#C4C4C4",
-    },
     header: {
       padding: "0px 20px",
     },
@@ -35,12 +31,6 @@ export const useStyles = () => {
     footer: {
       display: "flex",
       justifyContent: "center",
-    },
-    errorToastify: {
-      width: "28rem",
-      color: "#c03e3d",
-      fontFamily: "inherit",
-      backgroundColor: "#ecc8c5",
     },
     card: {
       width: "200px",

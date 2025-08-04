@@ -1,5 +1,5 @@
 export const pages = [
-  { name: "Classes", to: "/classes" },
-  { name: "Students", to: "/students" },
-  { name: "Create", to: "/create" },
+  { name: "classes", to: "/classes" },
+  { name: "students", to: "/students" },
+  { name: "create", to: "/create" },
 ];

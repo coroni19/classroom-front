@@ -1,4 +1,4 @@
-import { routes } from "./router.const";
+import { ROUTES } from "./router.const";
 import RootLayout from "../layout/RootLayout";
 import { Route, Routes } from "react-router-dom";
 
@@ -6,7 +6,7 @@ export const MainRouter = () => {
   return (
     <Routes>
       <Route path="/*" element={<RootLayout />}>
-        {routes.map((route) => (
+        {ROUTES.map((route) => (
           <Route
             key={route.path}
             element={<route.element />}

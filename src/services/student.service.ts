@@ -27,13 +27,7 @@ class StudentService {
   }
 
   public async createStudent(studentDto: IStudentDto): Promise<void> {
-    await this.api.post("", {
-      studentId: studentDto.studentId,
-      firstName: studentDto.firstName,
-      lastName: studentDto.lastName,
-      age: Number(studentDto.age),
-      profession: studentDto.profession,
-    });
+    await this.api.post("", { ...studentDto, age: Number(studentDto.age) });
   }
 }
 

@@ -6,14 +6,14 @@ const Loader = () => {
   const styles = useStyles();
 
   return (
-    <Box sx={styles.body}>
-      <Box sx={styles.wrapper}>
+    <div style={styles.body}>
+      <div style={styles.wrapper}>
         {ballPositions.map((pos, i) => (
           <Box
             key={i}
             sx={{
-              ...styles.circle,
               ...pos.sx,
+              ...styles.circle,
               animation: `${bounce} 0.5s alternate infinite ease`,
               animationDelay: pos.delay,
             }}
@@ -23,16 +23,16 @@ const Loader = () => {
           <Box
             key={i}
             sx={{
-              ...styles.shadow,
               ...pos.sx,
+              ...styles.shadow,
               animation: `${shadowAnim} 0.5s alternate infinite ease`,
               animationDelay: pos.delay,
             }}
           />
         ))}
         <Typography style={styles.loadingText}>Loading</Typography>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
