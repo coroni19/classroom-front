@@ -5,6 +5,7 @@ import {
 
 import { isDigit } from "./createPage.utils";
 import { isIdentityCard } from "class-validator";
+import { HE_IL_LOCAL } from "../../constants/locals.const";
 import type { IForm } from "../../interfaces/form.interface";
 import { VALID_STRING_REGEX } from "../../constants/regex.constants";
 import type { IStudentDto } from "../../interfaces/student.interface";
@@ -20,7 +21,7 @@ export const studentForm: IForm<IStudentDto> = {
       register: {
         required: "ID is required",
         validate: (data) => {
-          return isIdentityCard(data, "he-IL")
+          return isIdentityCard(data, HE_IL_LOCAL)
             ? true
             : "ID must be a valid israeli tz";
         },
