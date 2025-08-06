@@ -1,4 +1,5 @@
 import {
+  IS_REQUIRED_MESSAGE,
   INVALID_STRING_MESSAGE,
   STUDENT_CREATION_SUCCESS_MESSAGE,
 } from "../../constants/messages.const";
@@ -19,7 +20,7 @@ export const studentForm: IForm<IStudentDto> = {
       required: true,
       onKeyDown: isDigit,
       register: {
-        required: "ID is required",
+        required: `ID ${IS_REQUIRED_MESSAGE}`,
         validate: (data) => {
           return isIdentityCard(data, HE_IL_LOCAL)
             ? true
@@ -32,7 +33,7 @@ export const studentForm: IForm<IStudentDto> = {
       label: "First Name",
       required: true,
       register: {
-        required: "First Name is required",
+        required: `First Name ${IS_REQUIRED_MESSAGE}`,
         maxLength: { value: 30, message: "Name is too long (max 30)." },
         pattern: {
           value: VALID_STRING_REGEX,
@@ -45,7 +46,7 @@ export const studentForm: IForm<IStudentDto> = {
       label: "Last Name",
       required: true,
       register: {
-        required: "Last Name is required",
+        required: `Last Name ${IS_REQUIRED_MESSAGE}`,
         maxLength: { value: 30, message: "Name is too long (max 30)." },
         pattern: {
           value: VALID_STRING_REGEX,
@@ -67,7 +68,7 @@ export const studentForm: IForm<IStudentDto> = {
       label: "Profession",
       required: true,
       register: {
-        required: "Profession is required",
+        required: `Profession ${IS_REQUIRED_MESSAGE}`,
         maxLength: { value: 30, message: "Name is too long (max 30)." },
       },
     },

@@ -4,6 +4,7 @@ import {
 } from "../../constants/regex.constants";
 
 import {
+  IS_REQUIRED_MESSAGE,
   INVALID_NUMBER_MESSAGE,
   INVALID_STRING_MESSAGE,
   CLASS_CREATION_SUCCESS_MESSAGE,
@@ -22,7 +23,7 @@ export const classForm: IForm<IClassDto> = {
       required: true,
       onKeyDown: isDigit,
       register: {
-        required: "ID is required",
+        required: `ID ${IS_REQUIRED_MESSAGE}`,
         pattern: {
           value: VALID_NUMBER_REGEX,
           message: "ID " + INVALID_NUMBER_MESSAGE,
@@ -34,7 +35,7 @@ export const classForm: IForm<IClassDto> = {
       label: "Name",
       required: true,
       register: {
-        required: "Name is required",
+        required: `Name ${IS_REQUIRED_MESSAGE}`,
         maxLength: { value: 30, message: "Name is too long (max 30)." },
         pattern: {
           value: VALID_STRING_REGEX,
@@ -48,7 +49,7 @@ export const classForm: IForm<IClassDto> = {
       required: true,
       onKeyDown: isDigit,
       register: {
-        required: "Max Seats is required",
+        required: `Max Seats ${IS_REQUIRED_MESSAGE}`,
         pattern: {
           value: VALID_NUMBER_REGEX,
           message: "Max Seats " + INVALID_NUMBER_MESSAGE,
