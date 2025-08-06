@@ -68,10 +68,6 @@ export const studentForm: IForm<IStudentDto> = {
       register: {
         required: "Profession is required",
         maxLength: { value: 30, message: "Name is too long (max 30)." },
-        pattern: {
-          value: VALID_STRING_REGEX,
-          message: "Profession " + INVALID_STRING_MESSAGE,
-        },
       },
     },
   ],
