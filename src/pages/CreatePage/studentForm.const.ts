@@ -1,6 +1,12 @@
 import {
+  VALID_NUMBER_REGEX,
+  VALID_STRING_REGEX,
+} from "../../constants/regex.constants";
+
+import {
   IS_REQUIRED_MESSAGE,
   INVALID_STRING_MESSAGE,
+  INVALID_NUMBER_MESSAGE,
   STUDENT_CREATION_SUCCESS_MESSAGE,
 } from "../../constants/messages.const";
 
@@ -8,7 +14,6 @@ import { isDigit } from "./createPage.utils";
 import { isIdentityCard } from "class-validator";
 import { HE_IL_LOCAL } from "../../constants/locals.const";
 import type { IForm } from "../../interfaces/form.interface";
-import { VALID_STRING_REGEX } from "../../constants/regex.constants";
 import type { IStudentDto } from "../../interfaces/student.interface";
 
 export const studentForm: IForm<IStudentDto> = {
@@ -61,6 +66,10 @@ export const studentForm: IForm<IStudentDto> = {
       register: {
         min: { value: 1, message: "Age must be a valid number" },
         max: { value: 100, message: "Age must be valid" },
+        pattern: {
+          value: VALID_NUMBER_REGEX,
+          message: "Age " + INVALID_NUMBER_MESSAGE,
+        },
       },
     },
     {
