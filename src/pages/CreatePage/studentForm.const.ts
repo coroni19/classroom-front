@@ -22,7 +22,7 @@ export const studentForm: IForm<IStudentDto> = {
         validate: (data) => {
           return isIdentityCard(data, "he-IL")
             ? true
-            : "ID must be a valid israeli taz";
+            : "ID must be a valid israeli tz";
         },
       },
     },
