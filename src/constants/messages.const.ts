@@ -2,7 +2,7 @@ export const NO_STUDENTS_IN_CLASS_MESSAGE =
   "There Are No Students In This Class";
 
 export const INVALID_NUMBER_MESSAGE =
-  "must be a valid number (number cannton start with 0)";
+  "must be a valid number (number can not start with 0)";
 
 export const DELETE_CLASS_ERROR_MESSAGE =
   "Error: class cannot be deleted if students are assigned";
