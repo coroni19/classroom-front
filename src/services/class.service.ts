@@ -9,12 +9,12 @@ class ClassService {
     this.api = createAxiosInstance(`${import.meta.env.VITE_BASE_URL}/classes`);
   }
 
-  public async getAllClasses(): Promise<IClass | null> {
+  public async getAll(): Promise<IClass | null> {
     const res = await this.api.get("");
     return res.data;
   }
 
-  public async createClass(classDto: IClassDto): Promise<any> {
+  public async create(classDto: IClassDto): Promise<any> {
     await this.api.post("", {
       classId: Number(classDto.classId),
       className: classDto.className,
@@ -22,7 +22,7 @@ class ClassService {
     });
   }
 
-  public async deleteClass(classId: number): Promise<void> {
+  public async delete(classId: number): Promise<void> {
     await this.api.delete(`/${classId}`);
   }
 }

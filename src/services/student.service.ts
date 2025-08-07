@@ -9,24 +9,24 @@ class StudentService {
     this.api = createAxiosInstance(`${import.meta.env.VITE_BASE_URL}/students`);
   }
 
-  public async getAllStudents(): Promise<IStudent | null> {
+  public async getAll(): Promise<IStudent | null> {
     const res = await this.api.get("");
     return res.data;
   }
 
-  public async deleteStudent(id: string): Promise<void> {
+  public async delete(id: string): Promise<void> {
     await this.api.delete(`/${id}`);
-  }
-
-  public async assign(studentId: string, classId: number): Promise<void> {
-    await this.api.patch(`/assign/${studentId}`, { classId: classId });
   }
 
   public async unassign(studentId: string): Promise<void> {
     await this.api.patch(`/unassign/${studentId}`);
   }
 
-  public async createStudent(studentDto: IStudentDto): Promise<void> {
+  public async assign(studentId: string, classId: number): Promise<void> {
+    await this.api.patch(`/assign/${studentId}`, { classId: classId });
+  }
+
+  public async create(studentDto: IStudentDto): Promise<void> {
     await this.api.post("", { ...studentDto, age: Number(studentDto.age) });
   }
 }
