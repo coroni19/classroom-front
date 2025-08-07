@@ -3,9 +3,9 @@ import {
   SOMETHING_WENT_WROG_MESSAGE,
 } from "../../constants/messages.const";
 
-import { useState, type FC } from "react";
 import { useStyles } from "./ClassCard.style";
 import { useAppDispatch } from "../../redux/store";
+import { useMemo, useState, type FC } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import classService from "../../services/class.service";
 import { deleteClass } from "../../redux/slices/class.slice";
@@ -26,7 +26,9 @@ const ClassCard: FC<IClassProps> = ({ cls, handleOpen }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const seatsLeft = cls.maxSeats - cls.students.length;
+  const seatsLeft = useMemo(() => {
+    return cls.maxSeats - cls.students.length;
+  }, [cls.maxSeats, cls.students.length]);
 
   const handleDelete = async (students: IStudent[]) => {
     if (students.length !== 0) {
@@ -69,7 +71,6 @@ const ClassCard: FC<IClassProps> = ({ cls, handleOpen }) => {
         >
           {!loading && <DeleteIcon sx={styles.icons} />}
         </IconButton>
-        <div></div>
       </div>
     </Card>
   );
