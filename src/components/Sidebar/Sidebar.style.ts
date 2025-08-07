@@ -10,11 +10,11 @@ export const useStyles = () =>
     },
     pages: {
       color: "black",
-      fontSize: "18px",
+      fontSize: "1.125rem",
       textDecoration: "none",
       display: "inline-flex",
       justifyContent: "center",
       textTransform: "capitalize",
-      padding: "20px 50px 5px 50px",
+      padding: "0.9375rem 3.125rem 0.3125rem 3.125rem",
     },
   });

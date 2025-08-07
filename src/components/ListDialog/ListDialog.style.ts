@@ -4,23 +4,23 @@ export const useStyles = () =>
   createStyles({
     list: {
       pt: 0,
-      padding: "15px",
+      padding: "0.9375rem",
     },
     avatar: {
-      paddingLeft: "17px",
+      paddingLeft: "1.0625rem",
     },
     itemName: {
-      width: "140px",
       display: "flex",
-      fontSize: "18px",
+      width: "8.75rem",
+      fontSize: "1.125rem",
       justifyContent: "center",
     },
     itemInfo: {
-      marginBottom: "25px",
+      marginBottom: "1.5625rem",
     },
     dialogTitle: {
       display: "flex",
-      fontSize: "23px",
+      fontSize: "1.4375rem",
       justifyContent: "center",
     },
   });

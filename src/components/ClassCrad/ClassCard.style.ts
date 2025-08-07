@@ -8,21 +8,21 @@ export const useStyles = () => {
   return createStyles({
     studentsList: {
       color: "black",
-      fontSize: "16px",
+      fontSize: "1rem",
     },
     className: {
-      fontSize: "20px",
       fontWeight: "700",
+      fontSize: "1.25rem",
     },
     seatsLeft: {
-      fontSize: "16px",
+      fontSize: "1rem",
     },
     outOf: {
       color: "#8F8F8F",
-      fontSize: "14px",
+      fontSize: "0.875rem",
     },
     header: {
-      padding: "0px 20px",
+      padding: "0rem 1.25rem",
     },
     icons: {
       ...theme,
@@ -33,13 +33,13 @@ export const useStyles = () => {
       justifyContent: "center",
     },
     card: {
-      width: "200px",
-      height: "188px",
+      width: "12.5rem",
+      height: "11.75rem",
       display: "flex",
-      borderRadius: "4px",
+      borderRadius: "0.25rem",
       flexDirection: "column",
       justifyContent: "space-around",
-      boxShadow: "0px 4px 4px 0px #00000040",
+      boxShadow: "0rem 0.25rem 0.25rem 0rem #00000040",
     },
   });
 };

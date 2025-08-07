@@ -35,7 +35,7 @@ const ClassPage = () => {
     selector: classSelector,
     isLoaded: (data: IClass[]) => data.length > 0,
     queryKey: FETCH_CLASSES_QUERY_KEY,
-    serviceAction: () => classService.getAllClasses(),
+    serviceAction: () => classService.getAll(),
     dispatchAction: (data: IClass[]) => setClasses(data),
   });
 

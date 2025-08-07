@@ -12,18 +12,18 @@ export const useStyles = () => {
     },
     addIcon: {
       ...theme,
-      fontSize: "35px",
       ...themes.transition,
+      fontSize: "2.1875rem",
     },
     buttons: {
       ...theme,
-      margin: "15px 0px",
       ...themes.transition,
-      outline: `1px solid ${theme.color}`,
+      margin: "0.9375rem 0rem",
+      outline: `0.0625rem solid ${theme.color}`,
     },
     table: {
-      border: "1px solid #D1D1D1",
-      boxShadow: "0px 4px 4px 0px #00000040",
+      border: "0.0625rem solid #D1D1D1",
+      boxShadow: "0rem 0.25rem 0.25rem 0rem #00000040",
     },
   });
 };

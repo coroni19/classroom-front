@@ -2,13 +2,13 @@ import { keyframes } from "@mui/material";
 
 export const bounce = keyframes`
   0% {
-    top: 60px;
-    height: 5px;
-    border-radius: 50px 50px 25px 25px;
+    top: 3.75rem;
+    height: 0.3125rem;
+    border-radius: 3.125rem 3.125rem 1.5625rem 1.5625rem;
     transform: scaleX(1.5);
   }
   40% {
-    height: 20px;
+    height: 1.25rem;
     border-radius: 50%;
     transform: scaleX(1);
   }

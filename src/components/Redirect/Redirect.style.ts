@@ -13,7 +13,7 @@ export const useStyles = () => {
     navigationButton: {
       ...theme,
       width: "17rem",
-      border: "solid 2px",
+      border: "solid 0.125rem",
       borderColor: theme.color,
     },
     messageContainer: {

@@ -7,7 +7,7 @@ export const useStyles = () => {
 
   return createStyles({
     formTitle: {
-      fontSize: "40px",
+      fontSize: "2.5rem",
       marginBottom: "1rem",
     },
     alert: {
@@ -19,21 +19,21 @@ export const useStyles = () => {
     formContainer: {
       width: "22rem",
       display: "flex",
-      margin: "0px 200px",
       alignItems: "center",
+      margin: "0rem 12.5rem",
       flexDirection: "column",
     },
     button: {
       color: "white",
-      margin: "15px",
       width: "16rem",
+      margin: "0.9375rem",
       ...themes.transition,
       backgroundColor: theme.color,
     },
     field: {
       width: "16rem",
       maxWidth: "25rem",
-      marginTop: "10px",
+      marginTop: "0.625rem",
       "& .MuiInputLabel-root.Mui-focused": theme,
       "& .MuiOutlinedInput-root.Mui-focused fieldset": {
         borderColor: theme.color,

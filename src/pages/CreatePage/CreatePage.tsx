@@ -20,7 +20,7 @@ const CreatePage = () => {
   const students = useAppSelector(studentSelector);
 
   const handleSubmitClass = async (data: IClassDto) => {
-    await classService.createClass(data);
+    await classService.create(data);
 
     if (classes.length !== 0) {
       dispatch(addClass({ ...data, students: [] }));
@@ -28,7 +28,7 @@ const CreatePage = () => {
   };
 
   const handleSubmitStudent = async (data: IStudentDto) => {
-    await studentService.createStudent(data);
+    await studentService.create(data);
 
     if (students.length !== 0) {
       dispatch(addStudent({ ...data, classId: null }));

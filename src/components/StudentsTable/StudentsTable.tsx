@@ -66,7 +66,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
 
   const handleDelete = async (student: IStudent) => {
     try {
-      await studentService.deleteStudent(student.studentId);
+      await studentService.delete(student.studentId);
       handleDeleteStudent(dispatch, student);
     } catch (error) {
       toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE);

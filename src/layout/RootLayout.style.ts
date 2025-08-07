@@ -4,8 +4,8 @@ export const useStyles = () =>
   createStyles({
     main: {
       display: "flex",
-      marginTop: "160px",
+      marginTop: "10rem",
+      overflowX: "hidden",
       justifyContent: "center",
-      overflowX: "hidden"
     },
   });

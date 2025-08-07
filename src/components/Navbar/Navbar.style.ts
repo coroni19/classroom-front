@@ -7,12 +7,12 @@ export const useStyles = () => {
 
   return createStyles({
     darkModeIcon: {
-      width: "30px",
-      height: "30px",
       color: "white",
+      width: "1.875rem",
+      height: "1.875rem",
     },
     appName: {
-      fontSize: "32px",
+      fontSize: "2rem",
       fontWeight: "500",
       fontFamily: "Roboto !importent",
     },
@@ -21,9 +21,9 @@ export const useStyles = () => {
       left: 0,
       right: 0,
       zIndex: "10",
-      height: "97px",
       width: "100vw",
       position: "fixed",
+      height: "6.0625rem",
       ...themes.transition,
       display: "inline-flex",
       justifyContent: "center",

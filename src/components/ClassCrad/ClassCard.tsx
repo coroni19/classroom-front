@@ -37,7 +37,7 @@ const ClassCard: FC<IClassProps> = ({ cls, handleOpen }) => {
     try {
       setLoading(true);
 
-      await classService.deleteClass(cls.classId);
+      await classService.delete(cls.classId);
       dispatch(deleteClass({ classId: cls.classId }));
     } catch (error) {
       toastify(ERROR_TOAST_OPTION, SOMETHING_WENT_WROG_MESSAGE);

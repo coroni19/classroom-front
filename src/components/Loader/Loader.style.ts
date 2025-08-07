@@ -35,10 +35,10 @@ export const useStyles = () => {
       width: 18,
       height: 4,
       zIndex: -1,
-      filter: "blur(1px)",
       borderRadius: "50%",
       position: "absolute",
       transformOrigin: "50%",
+      filter: "blur(0.0625rem)",
       backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
     loadingText: {
