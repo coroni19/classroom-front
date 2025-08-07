@@ -76,7 +76,7 @@ const ClassPage = () => {
     return filteredClass.students.map(({ firstName, lastName, studentId }) => {
       return {
         key: studentId,
-        title: firstName.concat(" " + lastName),
+        title: `${firstName} ${lastName}`,
       };
     });
   }, [classes, selectedClass]);
