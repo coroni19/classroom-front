@@ -97,7 +97,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
           <TableHead>
             <TableRow>
               {TABLE_TITLES.map((title) => (
-                <TableCell key={title} align="center">
+                <TableCell key={title}>
                   {title}
                 </TableCell>
               ))}
@@ -107,11 +107,11 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
             {students.map((student) => (
               <TableRow key={student.studentId}>
                 {STUDENT_INFO_COLUMNS.map((key) => (
-                  <TableCell key={key} align="center">
+                  <TableCell key={key}>
                     {student[key]}
                   </TableCell>
                 ))}
-                <TableCell align="center">
+                <TableCell>
                   <Button
                     sx={styles.buttons}
                     onClick={() => handleClickOpen(student)}
@@ -119,7 +119,7 @@ const StudentsTable: FC<IStudentsTableProps> = ({ students }) => {
                     assign to class
                   </Button>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell>
                   <Button
                     sx={styles.buttons}
                     onClick={() => handleDelete(student)}

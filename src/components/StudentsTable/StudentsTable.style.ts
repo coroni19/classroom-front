@@ -22,6 +22,9 @@ export const useStyles = () => {
       outline: `0.0625rem solid ${theme.color}`,
     },
     table: {
+      "& .MuiTableCell-root": {
+        textAlign: "center",
+      },
       border: "0.0625rem solid #D1D1D1",
       boxShadow: "0rem 0.25rem 0.25rem 0rem #00000040",
     },
