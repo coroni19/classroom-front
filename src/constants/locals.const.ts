@@ -1,1 +1,1 @@
-export const HE_IL_LOCAL = "he-IL";
+export const HE_IL_LOCALE = "he-IL";

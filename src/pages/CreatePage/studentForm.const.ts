@@ -1,18 +1,18 @@
 import {
-  VALID_NUMBER_REGEX,
-  VALID_STRING_REGEX,
-} from "../../constants/regex.constants";
-
-import {
   IS_REQUIRED_MESSAGE,
   INVALID_STRING_MESSAGE,
   INVALID_NUMBER_MESSAGE,
   STUDENT_CREATION_SUCCESS_MESSAGE,
 } from "../../constants/messages.const";
 
+import {
+  VALID_NUMBER_REGEX,
+  VALID_STRING_REGEX,
+} from "../../constants/regex.constants";
+
 import { isDigit } from "./createPage.utils";
 import { isIdentityCard } from "class-validator";
-import { HE_IL_LOCAL } from "../../constants/locals.const";
+import { HE_IL_LOCALE } from "../../constants/locals.const";
 import type { IForm } from "../../interfaces/form.interface";
 import type { IStudentDto } from "../../interfaces/student.interface";
 
@@ -27,7 +27,7 @@ export const studentForm: IForm<IStudentDto> = {
       register: {
         required: `ID ${IS_REQUIRED_MESSAGE}`,
         validate: (data) => {
-          return isIdentityCard(data, HE_IL_LOCAL)
+          return isIdentityCard(data, HE_IL_LOCALE)
             ? true
             : "ID must be a valid israeli tz";
         },

@@ -31,7 +31,7 @@ const Sidebar = () => {
             key={page.name}
             onClick={toggleDrawerClose}
             style={
-              location.pathname.slice(1) === page.name
+              location.pathname === page.to
                 ? { ...styles.pages, ...styles.selectedPage }
                 : styles.pages
             }
